@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+
+<channel>
+<title>{{ show.title }}</title>
+<link>{{ show.link }}</link>
+<language>{{ show.language }}</language>
+<copyright>&#x2117; &amp; &#xA9; {% now "Y" %} {{ show.organization }}</copyright>
+<itunes:subtitle>{{ show.subtitle }}</itunes:subtitle>
+<itunes:author>{{ show.organization }}</itunes:author>
+<itunes:summary>{% if show.summary %}{{ show.summary|striptags }}{% else %}{{ show.description|striptags }}{% endif %}</itunes:summary>
+<description>{{ show.description|striptags }}</description>
+<itunes:owner>
+<itunes:name>{% if show.author.first_name or show.author.last_name %}{% if show.author.first_name and show.author.last_name %}{{ show.author.first_name }} {{ show.author.last_name }}{% endif %}{% if show.author.first_name %}{{ show.author.first_name }}{% endif %}{% if show.author.last_name %}{{ show.author.last_name }}{% endif %}{% else %}{{ show.author.username }}{% endif %}</itunes:name>
+<itunes:email>{% if show.author.email %}{{ show.author.email }}{% endif %}</itunes:email>
+</itunes:owner>
+<itunes:image href="{{ show.get_image_url }}" />
+
+         !!! <itunes:category text="{{ show.category }}"></itunes:category>
+
+<itunes:explicit>{{ show.explicit }}</itunes:explicit>
+{% if show.block %}<itunes:block>{{ show.block }}</itunes:block>{% endif %}
+{% if show.redirect %}<itunes:new-feed-url>{{ show.redirect }}</itunes:new-feed-url>{% endif %}
+{% for episode in episode_list %}
+<item>
+<title>{{ episode.title }}</title>
+<itunes:author>{% if episode.author.first_name or episode.author.last_name %}{% if episode.author.first_name and episode.author.last_name %}{{ episode.author.first_name }} {{ episode.author.last_name }}{% endif %}{% if episode.author.first_name %}{{ episode.author.first_name }}{% endif %}{% if episode.author.last_name %}{{ episode.author.last_name }}{% endif %}{% else %}{{ episode.author.username }}{% endif %}</itunes:author>
+<itunes:subtitle>{{ episode.subtitle }}</itunes:subtitle>
+<itunes:summary>{% if episode.summary %}{{ episode.summary|striptags }}{% else %}{{ episode.description|striptags }}{% endif %}</itunes:summary>
+<description>{{ episode.description|striptags }}</description>
+<enclosure url="{{ episode.get_file_url }}" length="{{ episode.get_file_size }}" type="{{ episode.mime }}" />
+<guid>{{ episode.get_file_url }}</guid>
+<pubDate>{{ episode.date|date:"r" }} GMT</pubDate>
+<itunes:duration>{{ episode.minutes }}:{{ episode.seconds }}</itunes:duration>
+<itunes:keywords>{{ episode.keywords }}</itunes:keywords>
+<itunes:explicit>{{ episode.explicit }}</itunes:explicit>
+{% if episode.block %}<itunes:block>{{ episode.block }}</itunes:block>{% endif %}
+</item>
+{% endfor %}
+</channel>
+</rss>
