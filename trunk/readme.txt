@@ -100,11 +100,11 @@ Some URLs that helped me and could help you:
 
 == Licensing ==
 
-This software is licensed under the [http://www.gnu.org/licenses/gpl-2.0.html GNU Public License v2].
+This software is licensed under the [http://en.wikipedia.org/wiki/BSD_license new BSD license].
 
 == Support ==
 
  * [http://code.google.com/p/django-podcast/ Google Code project page]
  * [http://code.google.com/p/django-podcast/issues/ Questions and problems]
 
-If you used this Django application, I'd love to see it in action. Or if you have suggestions or feature requests, drop me a line at rich (at) richardcornish (dot) com and let me know how you're using it or want to use it.
+If you used this Django application, I'd love to see it in action. If you have suggestions or feature requests, drop me a line at rich (at) richardcornish (dot) com and let me know.
