@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Category(models.Model):
-    CATEGORY_CHOICES = (
+    NAME_CHOICES = (
         ('Arts', (
                 ('Design', 'Design'),
                 ('Fashion & Beauty', 'Fashion & Beauty'),
@@ -101,17 +101,17 @@ class Category(models.Model):
         ),
         ('TV & Film', 'TV & Film'),
     )
-    category = models.CharField(max_length=26, choices=CATEGORY_CHOICES)
-    slug = models.SlugField(unique=True, prepopulate_from=("category",), help_text="Auto-generated, so don't worry about this.")
+    name = models.CharField(max_length=26, choices=NAME_CHOICES)
+    slug = models.SlugField(unique=True, prepopulate_from=("name",), help_text="Auto-generated, so don't worry about this.")
 
     class Meta:
-        ordering = ['category']
+        ordering = ['name']
 
     class Admin:
         pass
         
     def __unicode__(self):
-        return u'%s' % (self.category)
+        return u'%s' % (self.name)
 
 class Show(models.Model):
     EXPLICIT_CHOICES = (
