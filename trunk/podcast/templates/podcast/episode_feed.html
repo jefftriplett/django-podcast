@@ -14,10 +14,8 @@
 <itunes:name>{% if show.author.first_name or show.author.last_name %}{% if show.author.first_name and show.author.last_name %}{{ show.author.first_name }} {{ show.author.last_name }}{% endif %}{% if show.author.first_name %}{{ show.author.first_name }}{% endif %}{% if show.author.last_name %}{{ show.author.last_name }}{% endif %}{% else %}{{ show.author.username }}{% endif %}</itunes:name>
 <itunes:email>{% if show.author.email %}{{ show.author.email }}{% endif %}</itunes:email>
 </itunes:owner>
-<itunes:image href="{{ show.get_image_url }}" />
-
-         !!! <itunes:category text="{{ show.category }}"></itunes:category>
-
+<itunes:image href="{{ show.image.url }}" />
+{% for category in show.categories.all %}<itunes:category text="{{ category.name }}"></itunes:category>{% endfor %}
 <itunes:explicit>{{ show.explicit }}</itunes:explicit>
 {% if show.block %}<itunes:block>{{ show.block }}</itunes:block>{% endif %}
 {% if show.redirect %}<itunes:new-feed-url>{{ show.redirect }}</itunes:new-feed-url>{% endif %}
@@ -28,8 +26,8 @@
 <itunes:subtitle>{{ episode.subtitle }}</itunes:subtitle>
 <itunes:summary>{% if episode.summary %}{{ episode.summary|striptags }}{% else %}{{ episode.description|striptags }}{% endif %}</itunes:summary>
 <description>{{ episode.description|striptags }}</description>
-<enclosure url="{{ episode.get_file_url }}" length="{{ episode.get_file_size }}" type="{{ episode.mime }}" />
-<guid>{{ episode.get_file_url }}</guid>
+<enclosure url="{{ episode.file.url }}" length="{{ episode.file.size }}" type="{{ episode.mime }}" />
+<guid>{{ episode.file.url }}</guid>
 <pubDate>{{ episode.date|date:"r" }} GMT</pubDate>
 <itunes:duration>{{ episode.minutes }}:{{ episode.seconds }}</itunes:duration>
 <itunes:keywords>{{ episode.keywords }}</itunes:keywords>
