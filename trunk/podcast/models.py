@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+from podcast.managers import EpisodeManager
+
 
 class Category(models.Model):
+    """Category model."""
     NAME_CHOICES = (
         ('Arts', (
                 ('Design', 'Design'),
@@ -102,18 +105,18 @@ class Category(models.Model):
         ('TV & Film', 'TV & Film'),
     )
     name = models.CharField(max_length=26, choices=NAME_CHOICES)
-    slug = models.SlugField(unique=True, prepopulate_from=("name",), help_text="Auto-generated, so don't worry about this.")
+    slug = models.SlugField(unique=True, help_text="Auto-generated, so don't worry about this.")
 
     class Meta:
         ordering = ['name']
+        verbose_name_plural = "categories"
 
-    class Admin:
-        pass
-        
     def __unicode__(self):
         return u'%s' % (self.name)
 
+
 class Show(models.Model):
+    """Show model."""
     EXPLICIT_CHOICES = (
       ('yes', 'Yes'),
       ('no', 'No'),
@@ -121,7 +124,7 @@ class Show(models.Model):
     )
     organization = models.CharField(max_length=255, help_text="Name of the organization or company producing your podcast.")
     title = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True, prepopulate_from=("title",), help_text="Auto-generated, so don't worry about this.")
+    slug = models.SlugField(unique=True, help_text="Auto-generated, so don't worry about this.")
     subtitle = models.CharField(max_length=255, help_text="Displays best if only a few words long like a tagline.")
     language = models.CharField(max_length=5, default="en-us", help_text="Default is American English. See <a href=\"http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes\">ISO 639-1</a> and <a href=\"http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements\">ISO 3166-1</a> for more language codes.")
     author = models.ForeignKey(User)
@@ -139,16 +142,13 @@ class Show(models.Model):
     class Meta:
         ordering = ['title']
 
-    class Admin:
-        list_display = ('title', 'category')
-
     def __unicode__(self):
         return u'%s' % (self.title)
 
+
 class Episode(models.Model):
-    SECONDS_CHOICES = (
-      ('00', '0'), ('01', '1'), ('02', '2'), ('03', '3'), ('04', '4'), ('05', '5'), ('06', '6'), ('07', '7'), ('08', '8'), ('09', '9'), ('10', '10'), ('11', '11'), ('12', '12'), ('13', '13'), ('14', '14'), ('15', '15'), ('16', '16'), ('17', '17'), ('18', '18'), ('19', '19'), ('20', '20'), ('21', '21'), ('22', '22'), ('23', '23'), ('24', '24'), ('25', '25'), ('26', '26'), ('27', '27'), ('28', '28'), ('29', '29'), ('30', '30'), ('31', '31'), ('32', '32'), ('33', '33'), ('34', '34'), ('35', '35'), ('36', '36'), ('37', '37'), ('38', '38'), ('39', '39'), ('40', '40'), ('41', '41'), ('42', '42'), ('43', '43'), ('44', '44'), ('45', '45'), ('46', '46'), ('47', '47'), ('48', '48'), ('49', '49'), ('50', '50'), ('51', '51'), ('52', '52'), ('53', '53'), ('54', '54'), ('55', '55'), ('56', '56'), ('57', '57'), ('58', '58'), ('59', '59'),
-    )
+    """Episode model."""
+    SECONDS_CHOICES = tuple(('%02d' % x, str(x)) for x in range(60))
     MIME_CHOICES = (
       ('audio/mpeg', '.mp3 (audio)'),
       ('audio/x-m4a', '.m4a (audio)'),
@@ -162,9 +162,9 @@ class Episode(models.Model):
       ('no', 'No'),
       ('clean', 'Clean'),
     )
-    channel = models.ForeignKey(Show)
+    show = models.ForeignKey(Show)
     title = models.CharField(max_length=255, help_text="Make it specific, but avoid explicit language. Limit to 100 characters for inclusion in a Google video sitemap.")
-    slug = models.SlugField(unique=True, prepopulate_from=("title",), help_text="Auto-generated, so don't worry about this.")
+    slug = models.SlugField(unique=True, help_text="Auto-generated, so don't worry about this.")
     subtitle = models.CharField(max_length=255, help_text="Displays best if only a few words long like a tagline.")
     author = models.ForeignKey(User)
     date = models.DateTimeField(auto_now_add=True, help_text="Written in HH:MM:SS military time")
@@ -180,20 +180,16 @@ class Episode(models.Model):
     block = models.BooleanField(help_text="Check to block this episode from iTunes because its content might cause the entire show to be removed from iTunes.", default=False)
     embed = models.BooleanField(help_text="Check to allow Google to embed video in search results on <a href=\"http://video.google.com\">Google Video</a>. Note: Will only work if .swf player is uploaded in respective Show.", default=True)
     published = models.BooleanField("Publish live?", default=True)
-    
+    objects = EpisodeManager()
+
     class Meta:
         ordering = ['-date', 'author', 'title']
 
-    class Admin:
-        list_display = ('title', 'author', 'date')
-        list_filter = ('author', 'published')
-        
     def __unicode__(self):
         return u'%s' % (self.title)
 
     def seconds_total(self):
-        return (((float(self.minutes)) * 60) + (float(self.seconds)))
-
-class EpisodeManager(models.Manager):
-    def published(self):
-        return self.get_query_set().filter(published=True)
+        try:
+            return (((float(self.minutes)) * 60) + (float(self.seconds)))
+        except:
+            return 0

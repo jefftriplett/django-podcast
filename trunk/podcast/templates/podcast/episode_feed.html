@@ -21,7 +21,7 @@
 <itunes:explicit>{{ show.explicit }}</itunes:explicit>
 {% if show.block %}<itunes:block>{{ show.block }}</itunes:block>{% endif %}
 {% if show.redirect %}<itunes:new-feed-url>{{ show.redirect }}</itunes:new-feed-url>{% endif %}
-{% for episode in episode_list %}
+{% for episode in object_list %}
 <item>
 <title>{{ episode.title }}</title>
 <itunes:author>{% if episode.author.first_name or episode.author.last_name %}{% if episode.author.first_name and episode.author.last_name %}{{ episode.author.first_name }} {{ episode.author.last_name }}{% endif %}{% if episode.author.first_name %}{{ episode.author.first_name }}{% endif %}{% if episode.author.last_name %}{{ episode.author.last_name }}{% endif %}{% else %}{{ episode.author.username }}{% endif %}</itunes:author>
