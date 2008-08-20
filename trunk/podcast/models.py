@@ -172,7 +172,7 @@ class Episode(models.Model):
     summary = models.TextField(help_text="iTunes-specific description; allows 4,000 characters. Description will be used if summary is blank. Neither HTML nor Markdown is accepted.", blank=True)
     minutes = models.PositiveIntegerField()
     seconds = models.CharField(max_length=2, choices=SECONDS_CHOICES)
-    file = models.FileField(upload_to="postcasts/mov/", help_text="Must be less than or equal to 30 MB for a Google video sitemap.")
+    file = models.FileField(upload_to="podcasts/mov/", help_text="Must be less than or equal to 30 MB for a Google video sitemap.")
     image = models.ImageField(upload_to="podcasts/img/", help_text="A thumbnail screenshot of a scene from the video for inclusion in a Google video sitemap. Individual podcast artwork must be in the file's metadata!", blank=True)
     mime = models.CharField("Format", max_length=255, choices=MIME_CHOICES, default="video/mp4")
     keywords = models.CharField(max_length=255, help_text="A comma-separated list of words for iTunes searches, up to 12; perhaps include misspellings.")
