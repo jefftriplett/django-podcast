@@ -105,7 +105,7 @@ class Category(models.Model):
         ('TV & Film', 'TV & Film'),
     )
     name = models.CharField(max_length=26, choices=NAME_CHOICES)
-    slug = models.SlugField(unique=True, help_text="Auto-generated, so don't worry about this.")
+    slug = models.SlugField(unique=True)
 
     class Meta:
         ordering = ['name']
@@ -122,22 +122,22 @@ class Show(models.Model):
       ('no', 'No'),
       ('clean', 'Clean'),
     )
-    organization = models.CharField(max_length=255, help_text="Name of the organization or company producing your podcast.")
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(unique=True, help_text="Auto-generated, so don't worry about this.")
-    subtitle = models.CharField(max_length=255, help_text="Displays best if only a few words long like a tagline.")
-    language = models.CharField(max_length=5, default="en-us", help_text="Default is American English. See <a href=\"http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes\">ISO 639-1</a> and <a href=\"http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements\">ISO 3166-1</a> for more language codes.")
+    organization = models.CharField(max_length=255, help_text="Name of the organization or company producing the podcast.")
     author = models.ForeignKey(User)
-    description = models.TextField(help_text="Describe subject matter, media format, episode schedule and other relevant information. Incorporate some keywords. Neither HTML nor Markdown is accepted.")
-    summary = models.TextField(help_text="iTunes-specific description; allows 4,000 characters. Description will be used if summary is blank. Neither HTML nor Markdown is accepted.", blank=True)
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, help_text="Auto-generated based on title.")
+    subtitle = models.CharField(max_length=255, help_text="Looks best if only a few words long like a tagline.")
+    language = models.CharField(max_length=5, default="en-us", help_text="Default is American English. See <a href=\"http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes\">ISO 639-1</a> and <a href=\"http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements\">ISO 3166-1</a> for more language codes.")
+    description = models.TextField(help_text="Describe subject matter, media format, episode schedule and other relevant information while incorporating keywords. Neither HTML nor Markdown is accepted.")
+    summary = models.TextField(help_text="iTunes-specific description, which allows 4,000 characters. Description will be used if summary is blank. Neither HTML nor Markdown is accepted.", blank=True)
     image = models.ImageField(upload_to="podcasts/img/", help_text="An attractive, original square JPEG (.jpg) or PNG (.png) image of 600x600 pixels; will be scaled down to 50x50 pixels at smallest.")
     player = models.FileField(upload_to="podcasts/", help_text="An optional Adobe Shockwave Flash (.swf) video player that loads external videos, for inclusion in a Google video sitemap.", blank=True)
-    category = models.ManyToManyField(Category, help_text="Having a category makes the podcast appear in more places in iTunes and is more likely to be found by users.")
     keywords = models.CharField(max_length=255, help_text="A comma-separated list of words for iTunes searches, up to 12; perhaps include misspellings of title.")
     explicit = models.CharField(max_length=255, default="no", choices=EXPLICIT_CHOICES, help_text="\"Clean\" will put the clean iTunes graphic by it.")
-    block = models.BooleanField(default=False, help_text="Check to temporarily block this show from iTunes.")
+    block = models.BooleanField(default=False, help_text="Check to block this show from iTunes; show will remain blocked until unchecked.")
     link = models.URLField(help_text="URL of the main website or the podcast section of the main website.")
-    redirect = models.URLField(help_text="URL of the new podcast feed; must continue old feed for at least two weeks. Write a 301 redirect for old feed, too.", blank=True)
+    redirect = models.URLField(help_text="URL of the new podcast feed; must continue old feed for at least two weeks. Must also write a 301 redirect for old feed.", blank=True)
+    category = models.ManyToManyField(Category, help_text="Selecting multiple categories makes the podcast more likely to be found by users.")
 
     class Meta:
         ordering = ['title']
@@ -163,17 +163,17 @@ class Episode(models.Model):
       ('clean', 'Clean'),
     )
     show = models.ForeignKey(Show)
-    title = models.CharField(max_length=255, help_text="Make it specific, but avoid explicit language. Limit to 100 characters for inclusion in a Google video sitemap.")
-    slug = models.SlugField(unique=True, help_text="Auto-generated, so don't worry about this.")
-    subtitle = models.CharField(max_length=255, help_text="Displays best if only a few words long like a tagline.")
     author = models.ForeignKey(User)
-    date = models.DateTimeField(auto_now_add=True, help_text="Written in HH:MM:SS military time")
-    description = models.TextField(help_text="Neither HTML nor Markdown is accepted. Avoid explicit language. Limitd to 2,048 characters for inclusion in a Google video sitemap.")
+    title = models.CharField(max_length=255, help_text="Make it specific but avoid explicit language. Limit to 100 characters for inclusion in a Google video sitemap.")
+    slug = models.SlugField(unique=True, help_text="Auto-generated from title.")
+    subtitle = models.CharField(max_length=255, help_text="Looks best if only a few words long like a tagline.")
+    date = models.DateTimeField(auto_now_add=True)
+    description = models.TextField(help_text=" Avoid explicit language. Limited to 2,048 characters for inclusion in a Google video sitemap. Neither HTML nor Markdown is accepted.")
     summary = models.TextField(help_text="iTunes-specific description; allows 4,000 characters. Description will be used if summary is blank. Neither HTML nor Markdown is accepted.", blank=True)
     minutes = models.PositiveIntegerField()
     seconds = models.CharField(max_length=2, choices=SECONDS_CHOICES)
-    file = models.FileField(upload_to="podcasts/mov/", help_text="Must be less than or equal to 30 MB for a Google video sitemap.")
-    image = models.ImageField(upload_to="podcasts/img/", help_text="A thumbnail screenshot of a scene from the video for inclusion in a Google video sitemap. Individual podcast artwork must be in the file's metadata!", blank=True)
+    file = models.FileField(upload_to="podcasts/mov/", help_text="Must be less than or equal to 30 MB for inclusion in a Google video sitemap.")
+    image = models.ImageField(upload_to="podcasts/img/", help_text="A screenshot from the video for inclusion in a Google video sitemap. Podcast artwork must be in the file's metadata before uploading!", blank=True)
     mime = models.CharField("Format", max_length=255, choices=MIME_CHOICES, default="video/mp4")
     keywords = models.CharField(max_length=255, help_text="A comma-separated list of words for iTunes searches, up to 12; perhaps include misspellings.")
     explicit = models.CharField(max_length=255, default="no", choices=EXPLICIT_CHOICES, help_text="\"Clean\" will put the clean iTunes graphic by it.")

@@ -2,7 +2,7 @@
 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
 
 <channel>
-<title>{{ show.title }}</title>
+<title>{{ epsidode.show_set.title }}</title>
 <link>{{ show.link }}</link>
 <language>{{ show.language }}</language>
 <copyright>&#x2117; &amp; &#xA9; {% now "Y" %} {{ show.organization }}</copyright>
@@ -22,7 +22,7 @@
 {% for episode in object_list %}
 <item>
 <title>{{ episode.title }}</title>
-<itunes:author>{% if episode.author.first_name or episode.author.last_name %}{% if episode.author.first_name and episode.author.last_name %}{{ episode.author.first_name }} {{ episode.author.last_name }}{% endif %}{% if episode.author.first_name %}{{ episode.author.first_name }}{% endif %}{% if episode.author.last_name %}{{ episode.author.last_name }}{% endif %}{% else %}{{ episode.author.username }}{% endif %}</itunes:author>
+<itunes:author>{% if episode.author.first_name and episode.author.last_name %}{{ episode.author.first_name }} {{ episode.author.last_name }}{% else %}{% if episode.author.first_name and not episode.author.last_name %}{{ episode.author.first_name }}{% endif %}{% else %}{% if episode.author.last_name and not episode.author.first_name %}{{ episode.author.last_name }}{% endif %}{% else %}{{ episode.author.username }}{% endif %}</itunes:author>
 <itunes:subtitle>{{ episode.subtitle }}</itunes:subtitle>
 <itunes:summary>{% if episode.summary %}{{ episode.summary|striptags }}{% else %}{{ episode.description|striptags }}{% endif %}</itunes:summary>
 <description>{{ episode.description|striptags }}</description>
