@@ -35,8 +35,8 @@ Add `podcast` as a tuple item to your `INSTALLED_APPS` in `settings.py`:
 Add these lines to your URL configuration, urls.py, replacing the `ExamplePodcast` as necessary (further instruction about FeedBurner below):
 
     {{{
-    (r'^podcasts/$', include('podcast.urls')),
-    (r'^podcasts/feed/$', 'django.views.generic.simple.redirect_to', {'url': 'http://feeds.feedburner.com/ExamplePodcast'}),
+    (r'^podcasts/', include('podcast.urls')),
+    (r'^podcasts/feed/', 'django.views.generic.simple.redirect_to', {'url': 'http://feeds.feedburner.com/ExamplePodcast'}),
     }}}
     
 Restart your server for the changes to take effect.
