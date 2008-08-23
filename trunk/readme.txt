@@ -56,13 +56,14 @@ Where `title-of-show` is the slug of your show. Remember to check the checkbox f
 
     `http://feeds.feedburner.com/TitleOfShow`
 
-You can now return to your website's admin and paste this URL into your Show object's FeedBurner text input. For bonus points, submit your FeedBurner URL to the iTunes Store. Your [iTunes URL should be something like:
+You can now return to your website's admin and paste this URL into your Show object's FeedBurner text input. For bonus points, submit your FeedBurner URL to the iTunes Store. Your iTunes podcast URL should be something like:
 
     `http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000`
 
-The advantage of submitting your FeedBurner URL to the iTunes Store, which allows you to track show statistics while also giving users the advantage of using the friendly iTunes interface. Return to the admin again and paste the iTunes show URL into the Show object's iTunes URL text input. Promote either the FeedBurner URL or the iTunes URL using each respective template tag on your website (in the simplest example):
+The advantage of submitting your FeedBurner URL to the iTunes Store allows you to track show statistics while also giving users the advantage of using the friendly iTunes interface. Return to the admin again and paste the iTunes show URL into the Show object's iTunes URL text input. Promote either the FeedBurner URL or the iTunes URL using each respective template tag on your website (in the simplest example):
 
     `{{ show.feedburner }}`
+    
     `{{ show.itunes }}`
 
 == Ping iTunes for new content ==
