@@ -1,6 +1,36 @@
 from django.views.generic.list_detail import object_list
 from django.views.generic.list_detail import object_detail
-from podcast.models import Episode
+from podcast.models import *
+
+
+def show_list(request):
+    """
+    Episode list
+
+    Template:  ``podcast/show_list.html``
+    Context:
+        object_list
+            List of shows.
+    """
+    return object_list(
+        request,
+        queryset=Show.objects.all().order_by('title'),
+        template_name='podcast/show_list.html')
+
+
+def episode_list(request, slug):
+    """
+    Episode list
+
+    Template:  ``podcast/episode_list.html``
+    Context:
+        object_list
+            List of episodes.
+    """
+    return object_list(
+        request,
+        queryset=Episode.objects.published().filter(show__slug__exact=slug).order_by('-date'),
+        template_name='podcast/episode_list.html')
 
 
 def episode_detail(request, show_slug, episode_slug):
@@ -20,7 +50,7 @@ def episode_detail(request, show_slug, episode_slug):
         template_name='podcast/episode_detail.html')
 
 
-def episode_feed(request):
+def episode_feed(request, slug):
     """
     Episode feed
 
@@ -32,26 +62,11 @@ def episode_feed(request):
     return object_list(
         request,
         mimetype='application/rss+xml',
-        queryset=Episode.objects.published(),
+        queryset=Episode.objects.published().filter(show__slug__exact=slug).order_by('-date'),
         template_name='podcast/episode_feed.html')
 
 
-def episode_list(request, slug):
-    """
-    Episode list
-
-    Template:  ``podcast/episode_list.html``
-    Context:
-        object_list
-            List of episodes.
-    """
-    return object_list(
-        request,
-        queryset=Episode.objects.published().filter(show__slug__exact=slug),
-        template_name='podcast/episode_list.html')
-
-
-def episode_sitemap(request):
+def episode_sitemap(request, slug):
     """
     Episode sitemap
 
@@ -63,5 +78,5 @@ def episode_sitemap(request):
     return object_list(
         request,
         mimetype='application/xml',
-        queryset=Episode.objects.published(),
+        queryset=Episode.objects.published().filter(show__slug__exact=slug).order_by('-date'),
         template_name='podcast/episode_sitemap.html')

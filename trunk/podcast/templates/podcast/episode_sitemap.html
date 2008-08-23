@@ -1,17 +1,23 @@
+{% spaceless %}
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.0">
-{% for episode in object_list %}
-<url>
-<loc>{{ episode.show.link }}</loc>
-<video:video>
-<video:content_loc>{{ episode.file.url }}</video:content_loc>
-{% if episode.show.player %}<video:player_loc allow_embed="{% if episode.embed %}Yes{% else %}No{% endif %}">{{ episode.show.player.url }}</video:player_loc>{% endif %}
-<video:thumbnail_loc>{{ episode.image.url }}</video:thumbnail_loc>
-<video:title>{{ episode.title }}</video:title>
-<video:description>{{ episode.description|striptags }}</video:description>
-<video:family_friendly>{% ifequal episode.explicit "yes" %}no{% endifequal %}{% ifequal episode.explicit "no" %}yes{% endifequal %}{% ifequal episode.explicit "clean" %}yes{% endifequal %}</video:family_friendly>
-<video:duration>{{ episode.seconds_total }}</video:duration>
-</video:video>
-</url>
-{% endfor %}
+
+{% regroup object_list by show as show_list %}
+    {% for show in show_list %}
+    {% for episode in show.list %}
+    <url>
+        <loc>{{ episode.show.link }}</loc>
+        <video:video>
+            <video:content_loc>{{ episode.file.url }}</video:content_loc>
+            {% if episode.show.player %}<video:player_loc allow_embed="{% if episode.embed %}Yes{% else %}No{% endif %}">{{ episode.show.player.url }}</video:player_loc>{% endif %}
+            <video:thumbnail_loc>{{ episode.image.url }}</video:thumbnail_loc>
+            <video:title>{{ episode.title }}</video:title>
+            <video:description>{{ episode.description|striptags }}</video:description>
+            <video:family_friendly>{% ifequal episode.explicit "yes" %}no{% endifequal %}{% ifequal episode.explicit "no" %}yes{% endifequal %}{% ifequal episode.explicit "clean" %}yes{% endifequal %}</video:family_friendly>
+            <video:duration>{{ episode.seconds_total }}</video:duration>
+        </video:video>
+    </url>
+    {% endfor %}
+    {% endfor %}
 </urlset>
+{% endspaceless %}

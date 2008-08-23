@@ -136,7 +136,9 @@ class Show(models.Model):
     explicit = models.CharField(max_length=255, default="no", choices=EXPLICIT_CHOICES, help_text="\"Clean\" will put the clean iTunes graphic by it.")
     block = models.BooleanField(default=False, help_text="Check to block this show from iTunes; show will remain blocked until unchecked.")
     link = models.URLField(help_text="URL of the main website or the podcast section of the main website.")
-    redirect = models.URLField(help_text="URL of the new podcast feed; must continue old feed for at least two weeks. Must also write a 301 redirect for old feed.", blank=True)
+    feedburner = models.URLField("FeedBurner URL", help_text="Fill this out after saving this show and at least one podcast. URL should look like \"http://feeds.feedburner.com/TitleOfShow\". See <a href=\"http://code.google.com/p/django-podcast/\">documentation</a> for more.", blank=True)
+    itunes = models.URLField("iTunes Store URL", help_text="Fill this out after saving this show and at least one podcast. URL should look like \"http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000\". See <a href=\"http://code.google.com/p/django-podcast/\">documentation</a> for more.", blank=True)
+    redirect = models.URLField(help_text="If changing URL of the new podcast feed. Must continue old feed for at least two weeks and write a 301 redirect for old feed.", blank=True)
     category = models.ManyToManyField(Category, help_text="Selecting multiple categories makes the podcast more likely to be found by users.")
 
     class Meta:
@@ -145,6 +147,8 @@ class Show(models.Model):
     def __unicode__(self):
         return u'%s' % (self.title)
 
+    def get_absolute_url(self):
+        return "%s/" % (self.slug)
 
 class Episode(models.Model):
     """Episode model."""
@@ -187,6 +191,9 @@ class Episode(models.Model):
 
     def __unicode__(self):
         return u'%s' % (self.title)
+
+    def get_absolute_url(self):
+        return "%s/" % (self.slug)
 
     def seconds_total(self):
         try:

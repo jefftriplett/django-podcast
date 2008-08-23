@@ -1,8 +1,6 @@
-= django-podcast =
+http://django-podcast.googlecode.com/svn/trunk/podcast/media/logo.png
 
 *django-podcast* is a Django application that allows you to easily publish podcasts that conform to the RSS 2.0 and iTunes RSS podcast specification.
-
-*Currently migrating application to the newforms-admin trunk changes. Application will not work until migration is complete. Thanks for your patience.*
 
 == Django and Python version ==
 
@@ -34,10 +32,7 @@ Add `podcast` as a tuple item to your `INSTALLED_APPS` in `settings.py`:
 
 Add these lines to your URL configuration, urls.py, replacing the `ExamplePodcast` as necessary (further instruction about FeedBurner below):
 
-    {{{
-    (r'^podcasts/', include('podcast.urls')),
-    (r'^podcasts/feed/', 'django.views.generic.simple.redirect_to', {'url': 'http://feeds.feedburner.com/ExamplePodcast'}),
-    }}}
+    `(r'^podcasts/', include('podcast.urls')),`
     
 Restart your server for the changes to take effect.
 
@@ -47,37 +42,38 @@ Assuming the Django binary directory is on your Python path, run the syncdb comm
 
 If you installed the Django admin application, you should be able to see the podcast application's show and episode areas:
 
-  * http://www.example.com/admin/podcast/show/
-  * http://www.example.com/admin/podcast/episode/
+    `http://www.example.com/admin/podcast/`
 
 == Dependencies ==
 
-None. However, consider a thumbnail creation utility, such as [http://code.google.com/p/sorl-thumbnail/ sorl-thumbnail], if you are not in control of creating your podcast show album artwork. The album artwork must be a maximum width of 600 pixels.
+None. However, consider a thumbnail creation utility, such as [http://code.google.com/p/sorl-thumbnail/ sorl-thumbnail], if you are not in control of creating your podcast show album artwork. The album artwork must be a maximum width of 600 pixels for iTunes, but you may want to size down artwork on your website.
 
-== FeedBurner feed statistics ==
+== FeedBurner and iTunes URLs ==
 
-After installing django-podcast and saving a podcast show and episode, you don't need to do anything more to get your podcast going. However, consider integrating FeedBurner to track podcast feed statistics. The following process creates a "friendly" URL and an iTunes Store URL that both point to your FeedBurner URL, which ultimately looks to your original feed URL.
+After saving at least one show and one episode, consider submitting your feed URL to [http://www.feedburner.com FeedBurner] for keeping track of podcast subscriber statistics. Your feed URL should be something like:
 
-1. Create original feed URL for FeedBurner
-   * http://www.example.com/podcasts/feedburner/
-2. Submit URL to FeedBurner (check box for podcast)
-   * http://www.feedburner.com/
-3. Copy new FeedBurner URL to clipboard
-   * http://feeds.feedburner.com/ExamplePodcast
-4. Create "friendly" URL for a redirect
-   * http://www.example.com/podcasts/feed/ -> http://feeds.feedburner.com/ExamplePodcast
-5. Submit "friendly" URL to the iTunes Store
-   * https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast
-6. Promote either "friendly" URL or iTunes URL
-   * http://www.example.com/podcasts/feed/
-   * http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=[Example iTunes Podcast ID] ... or
-   * http://www.itunes.com/podcast?id=[Example iTunes Podcast ID]
+    `http://www.example.com/podcasts/title-of-show/feed/`
 
-Hat tip goes to [http://www.jeffcroft.com Jeff Croft] from whom I saw a variation on this trick in his [http://jeffcroft.com/blog/2007/may/28/lost-theoriescom-source-code-update/ Lost-Theories source code].
+Where `title-of-show` is the slug of your show. Remember to check the checkbox for "I'm a podcaster!" Your new FeedBurner URL should be something like:
+
+    `http://feeds.feedburner.com/TitleOfShow`
+
+You can now return to your website's admin and paste this URL into your Show model, and make use of the corresponding template tag on your website. For bonus points, submit your FeedBurner URL to the iTunes Store. Your [iTunes URL should be something like:
+
+    `http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000`
+
+The advantage of submitting your FeedBurner URL instead of your original feed URL to the iTunes Store is that you can track show statistics while also giving users the advantage of using the friendly iTunes interface. You can return to your admin again and paste this URL into your Show model, too. Promote either URL using each's respective template tag on your website (in the simplest example):
+
+    {{{
+    {{ show.feedburner }}
+    {{ show.itunes }}
+    }}}
 
 == Ping iTunes for new content ==
 
-The iTunes Store checks new content daily but you might want to make sure a new episode is available immediately in the iTunes Store. Visit the ping URL to make that episode available: https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=[Example iTunes Podcast ID]
+The iTunes Store checks new content daily but you might want to make sure a new episode is available immediately in the iTunes Store. Visit your show's ping URL to make that episode available, which would be something like:
+
+    `https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=000000000`
 
 Alternatively, if you're a savvy developer, you could set up a `cron` job to handle this, but pinging too often could result in a removal from the iTunes Store.
 
