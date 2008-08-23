@@ -63,7 +63,7 @@ def show_list_feed(request, slug):
     return object_list(
         request,
         mimetype='application/rss+xml',
-        queryset=Show.objects.all(),
+        queryset=Episode.objects.published().filter(show__slug__exact=slug).order_by('-date')[0:21],
         template_name='podcast/show_feed.html')
 
 
