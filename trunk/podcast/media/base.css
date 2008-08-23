@@ -11,7 +11,7 @@ div#return a:hover { color: #092e20; background: none; }
 div#content { background: #fff; color: #222; overflow: auto; width: 100%; }
 div#footer { padding: 1em 0; }
 h1, h2, h3, h4, h5, h6, p, dl, dt, dd, img { margin: 0; padding: 16px; border: 0; display: block; }
-h1 { margin: 0 16px; padding: 1em 0 0; font-size: 2em; width: 350px; height: 73px; background: url(http://django-podcast.googlecode.com/svn/trunk/podcast/media/logo.png) left bottom no-repeat; text-indent: -9999px; }
+h1 { margin: 0 16px; padding: 1em 0 0; font-size: 2em; width: 375px; height: 95px; background: url(http://django-podcast.googlecode.com/svn/trunk/podcast/media/logo.png) left bottom no-repeat; text-indent: -9999px; }
 h2 { font-size: 1.25em; }
 h2 a { color: #092e20; }
 h2 a:hover { background: #e0ffb8; color: #574f32; text-decoration: none; }
