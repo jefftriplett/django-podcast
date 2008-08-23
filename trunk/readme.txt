@@ -30,23 +30,21 @@ Add `podcast` as a tuple item to your `INSTALLED_APPS` in `settings.py`:
     )
     }}}
 
-Add these lines to your URL configuration, urls.py, replacing the `ExamplePodcast` as necessary (further instruction about FeedBurner below):
-
-    `(r'^podcasts/', include('podcast.urls')),`
-    
-Restart your server for the changes to take effect.
-
-Assuming the Django binary directory is on your Python path, run the syncdb command to install the application's database tables.
+Assuming the Django binary directory is on your Python path, run the `syncdb` command to install the application's database tables.
 
     `django-admin.py syncdb`
 
-If you installed the Django admin application, you should be able to see the podcast application's show and episode areas:
+Add these lines to your URL configuration, `urls.py`:
+
+    `(r'^podcasts/', include('podcast.urls')),`
+
+Restart your server for the changes to take effect. If you installed the Django admin application, you should be able to see the podcast application's show and episode areas:
 
     `http://www.example.com/admin/podcast/`
 
 == Dependencies ==
 
-None. However, consider a thumbnail creation utility, such as [http://code.google.com/p/sorl-thumbnail/ sorl-thumbnail], if you are not in control of creating your podcast show album artwork. The album artwork must be a maximum width of 600 pixels for iTunes, but you may want to size down artwork on your website.
+None. However, consider a thumbnail creation utility, such as [http://code.google.com/p/sorl-thumbnail/ sorl-thumbnail], if you are not in control of creating your podcast show artwork. The show artwork must be a maximum width of 600 pixels for iTunes, and you might want to size down show artwork on your website.
 
 == FeedBurner and iTunes URLs ==
 
@@ -58,30 +56,28 @@ Where `title-of-show` is the slug of your show. Remember to check the checkbox f
 
     `http://feeds.feedburner.com/TitleOfShow`
 
-You can now return to your website's admin and paste this URL into your Show model, and make use of the corresponding template tag on your website. For bonus points, submit your FeedBurner URL to the iTunes Store. Your [iTunes URL should be something like:
+You can now return to your website's admin and paste this URL into your Show object's FeedBurner text input. For bonus points, submit your FeedBurner URL to the iTunes Store. Your [iTunes URL should be something like:
 
     `http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000`
 
-The advantage of submitting your FeedBurner URL instead of your original feed URL to the iTunes Store is that you can track show statistics while also giving users the advantage of using the friendly iTunes interface. You can return to your admin again and paste this URL into your Show model, too. Promote either URL using each's respective template tag on your website (in the simplest example):
+The advantage of submitting your FeedBurner URL to the iTunes Store, which allows you to track show statistics while also giving users the advantage of using the friendly iTunes interface. Return to the admin again and paste the iTunes show URL into the Show object's iTunes URL text input. Promote either the FeedBurner URL or the iTunes URL using each respective template tag on your website (in the simplest example):
 
-    {{{
-    {{ show.feedburner }}
-    {{ show.itunes }}
-    }}}
+    `{{ show.feedburner }}`
+    `{{ show.itunes }}`
 
 == Ping iTunes for new content ==
 
-The iTunes Store checks new content daily but you might want to make sure a new episode is available immediately in the iTunes Store. Visit your show's ping URL to make that episode available, which would be something like:
+The iTunes Store checks new content daily but you might want to make a new episode available immediately in the iTunes Store. Visit your show's ping URL to make that episode available, which would be something like:
 
     `https://phobos.apple.com/WebObjects/MZFinance.woa/wa/pingPodcast?id=000000000`
 
-Alternatively, if you're a savvy developer, you could set up a `cron` job to handle this, but pinging too often could result in a removal from the iTunes Store.
+Alternatively, if you're a savvy developer, you could set up a `cron` job to handle this, but note that pinging too often could result in a removal from the iTunes Store.
 
 == Google video sitemaps ==
 
 If you're creating a video podcast, you can submit a video sitemap to [http://www.google.com/webmasters/tools/ Google Webmaster Tools]. The video sitemap will help Google index videos in [http://video.google.com Google Video].
 
-After a successful installation, the video sitemap URL should be available at http://www.example.com/podcasts/sitemap.xml.
+After a successful installation, the video sitemap URL should be available at http://www.example.com/podcasts/title-of-show/sitemap.xml.
 
 == Relevant links ==
 
@@ -91,7 +87,7 @@ Some URLs that helped me and could help you:
  * [http://www.apple.com/itunes/store/podcaststechspecs.html Apple iTunes podcast technical specification]
  * [http://www.google.com/support/webmasters/bin/topic.py?topic=10079 Google video sitemaps]
  * [http://www.feedvalidator.org Feed Validator]
- * [http://www.kerstetter.net/page53/page54/page54.html MetaX, Macintosh meta-data tagger]
+ * [http://www.kerstetter.net/page53/page54/page54.html MetaX, Macintosh meta-data tagger] (for saving episode-specific artwork)
  * [http://www.techspansion.com/visualhub/ VisualHub]
 
 == Licensing ==
