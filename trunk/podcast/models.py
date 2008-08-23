@@ -150,6 +150,7 @@ class Show(models.Model):
     def get_absolute_url(self):
         return "%s/" % (self.slug)
 
+
 class Episode(models.Model):
     """Episode model."""
     SECONDS_CHOICES = tuple(('%02d' % x, str(x)) for x in range(60))
