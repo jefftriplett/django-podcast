@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{% block title %}{{ object.title }} &#8226; {{ object.show.title }}{% endblock %}</title>
+<link rel="alternate" type="application/rss+xml" title="{{ object.show.organization }} podcast feed" href="#" />
+<link href="http://media.richardcornish.com/junk/podcast/base.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+
+<body>
+
+<div id="header-wrap">
+<div id="header">
+{% block header %}
+<h1>Django podcast</h1>
+{% endblock %}
+</div>
+</div>
+
+<div id="return-wrap">
+<div id="return">
+<p>A detail of one episode of one show</p>
+</div>
+</div>
+
+<div id="content-wrap">
+<div id="content">
+{% block content %}
+
+<p class="back"><a href="../">Return to shows</a></p>
+
+<h2>{{ object.title }}</h2>
+
+<h3>{{ object.subtitle }}</h3>
+
+{% if object.image %}<div class="image"><img src="{{ object.image.url }}" width="{{ object.image.width }}" height="{{ object.image.height }}" alt="{{ object.title }} episode screenshot" /></div>{% endif %}
+
+<dl>
+  <dt>Date</dt>
+  <dd>{{ object.date|date:"F g, Y, g:m a" }}</dd>
+  <dt>Show</dt>
+  <dd><a href="../">{{ object.show.title }}</a></dd>
+  <dt>Author</dt>
+  <dd>{% if object.author.email %}<a href="mailto:{{ object.author.email }}">{% endif %}{% if object.author.first_name or object.author.last_name %}{% if object.author.first_name and object.author.last_name %}{{ object.author.first_name }} {{ object.author.last_name }}{% endif %}{% if object.author.first_name and not object.author.last_name %}{{ object.author.first_name }}{% endif %}{% if object.author.last_name and not object.author.first_name %}{{ object.author.last_name }}{% endif %}{% else %}{{ object.author.username }}{% endif %}{% if object.author.email %}</a>{% endif %}</dd>
+  <dt>RSS</dt>
+    <dd><a href="#">Subscribe</a></dd>
+  {% if object.show.feedburner %}<dt>FeedBurner</dt>
+    <dd><a href="{{ object.show.feedburner }}">Subscribe</a></dd>{% endif %}
+  {% if object.show.itunes %}<dt>iTunes</dt>
+    <dd><a href="{{ object.show.itunes }}">Subscribe</a></dd>{% endif %}
+</dl>
+
+<p>{% if object.summary %}{{ object.summary|striptags }}{% else %}{{ object.description|striptags }}{% endif %}</p>
+
+<p><strong><a href="{{ object.file.url }}">Download this episode</a></strong> ({{ object.mime }} at {{ object.minutes }}:{{ object.seconds }}) {% if episode.explicit %}(explicit){% endif %}</p>
+
+{% endblock %}
+</div>
+</div>
+
+<div id="footer-wrap">
+<div id="footer">
+{% block footer %}
+<p>&#169; {% now "Y" %} {{ object.show.organization }}. <a href="#">Subscribe</a>.</p>
+{% endblock %}
+</div>
+</div>
+
+</body>
+</html>

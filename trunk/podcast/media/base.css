@@ -1,0 +1,32 @@
+body { margin: 0; padding: 0; border: 0; font-family: arial, helvetica, sans-serif; font-size: 100%; background: #234f32; }
+div#header-wrap, div#footer-wrap { background: #092e20; }
+div#content-wrap { background: #234f32; width: 960px; margin: 0 auto; }
+div#header, div#content, div#footer { width: 960px; margin: 0 auto; color: #fff; }
+div#header, div#content { text-shadow: #000 0 0 0; }
+div#return-wrap { background: #92cc47; }
+div#return { margin: 0 auto; width: 960px; color: #386a42; }
+div#return p { margin: 0; padding: 8px 16px; font-size: .85em; font-weight: bold; }
+div#return a { color: #386a42; }
+div#return a:hover { color: #092e20; background: none; }
+div#content { background: #fff; color: #222; overflow: auto; width: 100%; }
+div#footer { padding: 1em 0; }
+h1, h2, h3, h4, h5, h6, p, dl, dt, dd, img { margin: 0; padding: 16px; border: 0; display: block; }
+h1 { margin: 0 16px; padding: 1em 0 0; font-size: 2em; width: 350px; height: 73px; background: url(http://django-podcast.googlecode.com/svn/trunk/podcast/media/logo.png) left bottom no-repeat; text-indent: -9999px; }
+h2 { font-size: 1.25em; }
+h2 a { color: #092e20; }
+h2 a:hover { background: #e0ffb8; color: #574f32; text-decoration: none; }
+h3 { padding: 0 16px 8px; font-size: 1em; color: #444; font-weight: normal; }
+h4, h5 { padding: 0 16px 8px; }
+dl, dt, dd { padding: 8px 0; color: #000; }
+dt, dd { font-size: .8em; padding: 0 16px 8px; }
+dt { font-weight: bold; float: left; text-align: right; width: 80px; }
+dd { margin-left: 90px; }
+#content p { padding: 0 16px 16px; font-size: .8em; line-height: 1.25em; }
+#content p.back { padding: 16px 16px 0; }
+#footer p { padding: 0 16px; font-size: .7em; color: #467856; font-family: verdana, tahoma, sans-serif; }
+#footer a { color: #f7c757; text-decoration: none; }
+#footer a:hover { color: #f2e761; background: none; }
+div.image { float: right; margin: 0 16px 16px; border: 1px solid #94da3a; padding: 7px; background: #e0ffb8; }
+div.image img { padding: 0; }
+a { color: #b25603; }
+a:hover { background: #e0ffb8; color: #574f32; text-decoration: none; }
