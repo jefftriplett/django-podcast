@@ -4,7 +4,7 @@ http://django-podcast.googlecode.com/svn/trunk/podcast/media/logo.png
 
 == Django and Python version ==
 
-django-podcast requires at least [http://code.djangoproject.com/changeset/7967 Django 0.97 revision 7967]. This revision incorporated the newforms-admin branch into trunk and makes the most notable use of it in the categories class of the application's models. The Subversion command would be:
+django-podcast requires at least [http://code.djangoproject.com/changeset/7967 Django 0.97 revision 7967]. This revision incorporated the newforms-admin branch into trunk and makes the most notable use of it in the categories class of the application's models. After connecting to your server via SSH, the Subversion command would be:
 
     `svn co http://code.djangoproject.com/svn/django/trunk/ django-trunk -r7967`
 
@@ -18,7 +18,7 @@ Check out django-podcast from the Google Code Subversion repository. Typically, 
     
     `ln -s $HOME/source/django-podcast-read-only/podcast/ $HOME/lib/python/podcast`
     
-You could simply physically move the "podcast" directory to a location that resides on your Python path, but that would break future Subversion updates.
+Alternatively, you could physically move the "podcast" directory of the Subversion checkout to a location that resides on your Python path, but that would break future Subversion updates.
 
 Add `podcast` as a tuple item to your `INSTALLED_APPS` in `settings.py`:
 
@@ -30,15 +30,21 @@ Add `podcast` as a tuple item to your `INSTALLED_APPS` in `settings.py`:
     )
     }}}
 
+Restart your server for Django to see the podcast application. Consult your web hosting's documentation on how to restart your server.
+
 Assuming the Django binary directory is on your Python path, run the `syncdb` command to install the application's database tables.
 
     `django-admin.py syncdb`
 
 Add these lines to your URL configuration, `urls.py`:
 
-    `(r'^podcasts/', include('podcast.urls')),`
+    {{{
+    urlpatterns += ('', 
+        (r'^podcasts/', include('podcast.urls')),
+    )
+    }}}
 
-Restart your server for the changes to take effect. If you installed the Django admin application, you should be able to see the podcast application's show and episode areas:
+If you installed the Django admin application, you should be able to see the podcast application's show and episode areas:
 
     `http://www.example.com/admin/podcast/`
 
