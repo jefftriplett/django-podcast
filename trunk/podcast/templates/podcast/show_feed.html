@@ -1,46 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
-
 {% regroup object_list by show as show_list %}
+{% for show in show_list %}
+<channel>
+    <title>{{ show.grouper.title }}</title>
+    <link>{{ show.grouper.link }}</link>
+    <description>{{ show.grouper.description|striptags }}</description>
+    <language>{{ show.grouper.language }}</language>
+    <copyright>&#x2117; &amp; &#xA9; {% now "Y" %} {{ show.grouper.organization }}</copyright>
+    <lastBuildDate>{{ show.list.0.date|date:"r" }}</lastBuildDate>
+    {% for category in show.grouper.category.all %}<category>{{ category.name }}</category>{% endfor %}
+    <ttl>{{ show.grouper.ttl }}</ttl>
+    <image>
+      <url>{{ show.grouper.image.url }}</url>
+      <title>{{ show.grouper.title }}</title>
+      <link>{{ show.grouper.link }}</link>
+    </image>
+    <itunes:author>{{ show.grouper.organization }}</itunes:author>
+    <itunes:owner>
+        <itunes:name>{% if show.grouper.author.first_name or show.grouper.author.last_name %}{% if show.grouper.author.first_name and show.grouper.author.last_name %}{{ show.grouper.author.first_name }} {{ show.grouper.author.last_name }}{% endif %}{% if show.grouper.author.first_name and not show.grouper.author.last_name %}{{ show.grouper.author.first_name }}{% endif %}{% if show.grouper.author.last_name and not show.grouper.author.first_name %}{{ show.grouper.author.last_name }}{% endif %}{% else %}{{ show.grouper.author.username }}{% endif %}</itunes:name>
+        <itunes:email>{% if show.grouper.author.email %}{{ show.grouper.author.email }}{% endif %}</itunes:email>
+    </itunes:owner>
+    <itunes:subtitle>{{ show.grouper.subtitle }}</itunes:subtitle>
+    <itunes:summary>{% if show.grouper.summary %}{{ show.grouper.summary|striptags }}{% else %}{{ show.grouper.description|striptags }}{% endif %}</itunes:summary>
+    <itunes:image href="{{ show.grouper.image.url }}" />
+    {% for category in show.grouper.category.all %}<itunes:category text="{{ category.name }}"></itunes:category>{% endfor %}
+    <itunes:explicit>{{ show.grouper.explicit }}</itunes:explicit>
+    {% if show.grouper.block %}<itunes:block>{{ show.grouper.block }}</itunes:block>{% endif %}
+    {% if show.grouper.redirect %}<itunes:new-feed-url>{{ show.grouper.redirect }}</itunes:new-feed-url>{% endif %}
 
-    {% for show in show_list %}
-    <channel>
-        <title>{{ show.grouper.title }}</title>
-        <link>{{ show.grouper.link }}</link>
-        <language>{{ show.grouper.language }}</language>
-        <copyright>&#x2117; &amp; &#xA9; {% now "Y" %} {{ show.grouper.organization }}</copyright>
-        <itunes:subtitle>{{ show.grouper.subtitle }}</itunes:subtitle>
-        <itunes:author>{{ show.grouper.organization }}</itunes:author>
-        <itunes:summary>{% if show.grouper.summary %}{{ show.grouper.summary|striptags }}{% else %}{{ show.grouper.description|striptags }}{% endif %}</itunes:summary>
-        <description>{{ show.grouper.description|striptags }}</description>
-        <itunes:owner>
-            <itunes:name>{% if show.grouper.author.first_name or show.grouper.author.last_name %}{% if show.grouper.author.first_name and show.grouper.author.last_name %}{{ show.grouper.author.first_name }} {{ show.grouper.author.last_name }}{% endif %}{% if show.grouper.author.first_name and not show.grouper.author.last_name %}{{ show.grouper.author.first_name }}{% endif %}{% if show.grouper.author.last_name and not show.grouper.author.first_name %}{{ show.grouper.author.last_name }}{% endif %}{% else %}{{ show.grouper.author.username }}{% endif %}</itunes:name>
-            <itunes:email>{% if show.grouper.author.email %}{{ show.grouper.author.email }}{% endif %}</itunes:email>
-        </itunes:owner>
-        <itunes:image href="{{ show.grouper.image.url }}" />
-        {% for category in show.grouper.category.all %}<itunes:category text="{{ category.name }}"></itunes:category>{% endfor %}
-        <itunes:explicit>{{ show.grouper.explicit }}</itunes:explicit>
-        {% if show.grouper.block %}<itunes:block>{{ show.grouper.block }}</itunes:block>{% endif %}
-        {% if show.grouper.redirect %}<itunes:new-feed-url>{{ show.grouper.redirect }}</itunes:new-feed-url>{% endif %}
-
-        {% for episode in show.list %}
-        <item>
-            <title>{{ episode.title }}</title>
-            <itunes:author>{% if episode.author.first_name or episode.author.last_name %}{% if episode.author.first_name and episode.author.last_name %}{{ episode.author.first_name }} {{ episode.author.last_name }}{% endif %}{% if episode.author.first_name and not episode.author.last_name %}{{ episode.author.first_name }}{% endif %}{% if episode.author.last_name and not episode.author.first_name %}{{ episode.author.last_name }}{% endif %}{% else %}{{ episode.author.username }}{% endif %}</itunes:author>
-            <itunes:subtitle>{{ episode.subtitle }}</itunes:subtitle>
-            <itunes:summary>{% if episode.summary %}{{ episode.summary|striptags }}{% else %}{{ episode.description|striptags }}{% endif %}</itunes:summary>
-            <description>{{ episode.description|striptags }}</description>
-            <enclosure url="{{ episode.file.url }}" length="{{ episode.file.size }}" type="{{ episode.mime }}" />
-            <guid>{{ episode.file.url }}</guid>
-            <pubDate>{{ episode.date|date:"r" }} GMT</pubDate>
-            <itunes:duration>{{ episode.minutes }}:{{ episode.seconds }}</itunes:duration>
-            <itunes:keywords>{{ episode.keywords }}</itunes:keywords>
-            <itunes:explicit>{{ episode.explicit }}</itunes:explicit>
-            {% if episode.block %}<itunes:block>{{ episode.block }}</itunes:block>{% endif %}
-        </item>
-        {% endfor %}
-        
-    </channel>
+    {% for episode in show.list %}
+    <item>
+        <title>{{ episode.title }}</title>
+        <link>{{ episode.file.url }}</link>
+        <description>{{ episode.description|striptags }}</description>
+        {% if show.grouper.author.email %}<author>{{ show.grouper.author.email }}</author>{% endif %}
+        <category>{{ episode.category }}</category>            
+        <enclosure url="{{ episode.file.url }}" length="{{ episode.file.size }}" type="{{ episode.mime }}" />
+        <guid isPermalink="true">{{ episode.file.url }}</guid>
+        <pubDate>{{ episode.date|date:"r" }} GMT</pubDate>
+        <source url="{% url show_list_feed %}">{{ episode.title }}</source>
+        <itunes:author>{% if episode.author.first_name or episode.author.last_name %}{% if episode.author.first_name and episode.author.last_name %}{{ episode.author.first_name }} {{ episode.author.last_name }}{% endif %}{% if episode.author.first_name and not episode.author.last_name %}{{ episode.author.first_name }}{% endif %}{% if episode.author.last_name and not episode.author.first_name %}{{ episode.author.last_name }}{% endif %}{% else %}{{ episode.author.username }}{% endif %}</itunes:author>
+        <itunes:subtitle>{{ episode.subtitle }}</itunes:subtitle>
+        <itunes:summary>{% if episode.summary %}{{ episode.summary|striptags }}{% else %}{{ episode.description|striptags }}{% endif %}</itunes:summary>
+        <itunes:duration>{{ episode.minutes }}:{{ episode.seconds }}</itunes:duration>
+        <itunes:keywords>{{ episode.keywords }}</itunes:keywords>
+        <itunes:explicit>{{ episode.explicit }}</itunes:explicit>
+        {% if episode.block %}<itunes:block>{{ episode.block }}</itunes:block>{% endif %}
+    </item>
     {% endfor %}
-    
+</channel>
+{% endfor %}
 </rss>

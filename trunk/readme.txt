@@ -4,7 +4,15 @@ http://django-podcast.googlecode.com/svn/trunk/podcast/media/logo.png
 
 == Django and Python version ==
 
-django-podcast requires at least [http://code.djangoproject.com/changeset/7967 Django 0.97 revision 7967]. This revision incorporated the newforms-admin branch into trunk and makes the most notable use of it in the categories class of the application's models. After connecting to your server via SSH, the Subversion command would be:
+django-podcast requires at least [http://code.djangoproject.com/changeset/7967 Django 0.97 revision 7967]. This revision incorporated the newforms-admin branch into trunk and makes the most notable use of it in the categories class of the application's models. However, I heavily encourage you to develop with Django 1.0.
+
+After connecting to your server via SSH, the Subversion command would be either of the following commands:
+
+Django 1.0:
+
+    `svn co http://code.djangoproject.com/svn/django/trunk/ django-trunk`
+
+Django 0.97, revision 7967:
 
     `svn co http://code.djangoproject.com/svn/django/trunk/ django-trunk -r7967`
 
@@ -52,6 +60,18 @@ If you installed the Django admin application, you should be able to see the pod
 
 None. However, consider a thumbnail creation utility, such as [http://code.google.com/p/sorl-thumbnail/ sorl-thumbnail], if you are not in control of creating your podcast show artwork. The show artwork must be a maximum width of 600 pixels for iTunes, and you might want to size down show artwork on your website.
 
+== Web site URLs ==
+
+The default Web site URLs out of the box should look something like:
+
+    `http://www.example.com/podcasts/`
+    
+    `http://www.example.com/podcasts/title-of-show/`
+    
+    `http://www.example.com/podcasts/title-of-show/title-of-episode/`
+
+The `/podcasts/` portion of the URL is hard coded into the URLs. Default templates showing examples of how each URL are included.
+
 == FeedBurner and iTunes URLs ==
 
 After saving at least one show and one episode, consider submitting your feed URL to [http://www.feedburner.com FeedBurner] for keeping track of podcast subscriber statistics. Your feed URL should be something like:
@@ -84,7 +104,9 @@ Alternatively, if you're a savvy developer, you could set up a `cron` job to han
 
 If you're creating a video podcast, you can submit a video sitemap to [http://www.google.com/webmasters/tools/ Google Webmaster Tools]. The video sitemap will help Google index videos in [http://video.google.com Google Video].
 
-After a successful installation, the video sitemap URL should be available at http://www.example.com/podcasts/title-of-show/sitemap.xml.
+After a successful installation, the video sitemap URL should be something like:
+
+     `http://www.example.com/podcasts/title-of-show/sitemap.xml`
 
 == Relevant links ==
 
@@ -92,10 +114,14 @@ Some URLs that helped me and could help you:
 
  * [http://cyber.law.harvard.edu/rss/rss.html RSS 2.0 Specification]
  * [http://www.apple.com/itunes/store/podcaststechspecs.html Apple iTunes podcast technical specification]
+ * [http://search.yahoo.com/mrss Media RSS Module - RSS 2.0 Module]
+ * [http://lists.apple.com/archives/syndication-dev/2006/Jan/msg00020.html Unofficial documentation of iPhoto 6.0 photocasting feeds]
  * [http://www.google.com/support/webmasters/bin/topic.py?topic=10079 Google video sitemaps]
  * [http://www.feedvalidator.org Feed Validator]
  * [http://www.kerstetter.net/page53/page54/page54.html MetaX, Macintosh meta-data tagger] (for saving episode-specific artwork)
  * [http://www.techspansion.com/visualhub/ VisualHub]
+
+For the curious, django-podcast is compatible with enhanced podcasts and HD podcasts; both depend on the respective file's preparation and not on the feeds.
 
 == Licensing ==
 
