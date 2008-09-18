@@ -10,6 +10,9 @@ urlpatterns = patterns('podcast.views',
     # Episode list feed by show (RSS 2.0 and iTunes)
     url(r'^(?P<slug>[-\w]+)/feed/$', 'show_list_feed', name='show_list_feed'),
 
+    # Episode list feed by show (Atom)
+    (r'^(?P<slug>[-\w]+)/atom/$', 'show_list_feed'),
+    
     # Episode list feed by show (Media RSS)
     (r'^(?P<slug>[-\w]+)/media/$', 'show_list_feed'),
 

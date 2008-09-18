@@ -1,3 +1,30 @@
-<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:gm="http://www.google.com/schemas/gm/1.1" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule">
+{% regroup object_list by show as show_list %}
+{% for show in show_list %}
+<channel>
+    <media:title>{{ show.grouper.title }}</media:title>
+    <link>{{ show.grouper.link }}</link>
+    <media:description>{{ show.grouper.description }}</media:description>
+    {% ifequal show.grouper.copyright "All rights reserved" or "Public domain" %}<media:copyright{% if show.grouper.copyright_url %} url="{{ show.grouper.copyright_url }}"{% endif %}>{% now "Y" %} {{ episode.show.organization }}. {{ episode.copyright }}.</media:copyright>{% else %}<creativeCommons:license>{{ episode.copyright }}</creativeCommons:license>{% endifequal %}
+    {% for episode in show.list %}
+    <item>
+        {% if episode.rating %}<media:rating{% if episode.scheme %} scheme="urn:{{ episode.scheme|lower }}"{% endif %}>{{ episode.rating|lower }}</media:rating>
+        {% if episode.title %}<media:title type="{{ episode.title_type_media }}">{{ episode.title }}</media:title>{% endif %}
+        {% if episode.description %}<media:description type="{{ episode.description_type_media }}">{{ episode.description }}</media:description>{% endif %}
+        <media:keywords>{{ episode.keywords }}</media:keywords>
+        {% if episode.image %}<media:thumbnail url="{{ episode.image.url }}" width="{{ episode.image.width }}" height="{{ episode.image.height }}" />{% endif %}
+        {% for category in show.grouper.category.all %}<media:category>{{ category.name }}</media:category>{% endfor %}
+        {% if episode.hash %}<media:hash{% if episode.algo %} scheme="urn:{{ episode.algo|lower }}"{% endif %}>{{ episode.hash|lower }}</media:rating>
+        {% if episode.player %}<media:player url="" width="" height="" />{% endif %}
+        {% if episode.role %}<media:credit role="{{ episode.role|lower }}" scheme="urn:ebu">{{ episode.show.organization }}</media:credit>{% endif %}
+        {% if episode.text %}<media:text>{{ episode.text }}</media:text>{% endif %}
+        {% if episode.restriction %}<media:restriction relationship="{{ episode.relationship }}" type="{{ episode.scope|lower }}">{{ episode.restriction }}</media:restriction>{% endif %}
+        <media:group>
+          <media:content url="{{ episode.file.url }}" fileSize="{{ episode.file.size }}" type="{{ episode.type }}" {% if episode.medium %}medium="{{ episode.medium|lower }}" {% endif %} isDefault="true"{% if episode.expression %}expression="{{ episode.expression|lower }}" {% endif %}{% if episode.bitrate %}bitrate="{{ episode.bitrate }}" {% endif %}{% if episode.frame %}framerate="{{ episode.frame }}" {% endif %}{% if episode.sample %}samplingrate="{{ episode.sample }}" {% endif %}{% if episode.channel %}channels="{{ episode.channel }}" {% endif %}duration="{{ episode.seconds_total }}" {% ifequal episode.medium "image" %}height="{{ episode.medium.height }}" {% endifequal %} {% ifequal episode.medium "image" %}width="{{ episode.medium.width }}" {% endifequal %} {% if episode.language %}lang="{{ episode.language }}" {% endif %}/>
+        </media:group>
+    </item>
+    {% endfor %}
+</channel>
+{% endfor %}
 </rss>

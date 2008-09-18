@@ -1,6 +1,10 @@
-from podcast.models import Category, Show, Episode
+from podcast.models import Organization, Category, Show, Episode
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
+
+
+class OrganizationAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ("name",)}
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -18,6 +22,7 @@ class ShowAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ("title",)}
 
 
+admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Episode, EpisodeAdmin)
 admin.site.register(Show, ShowAdmin)

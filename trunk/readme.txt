@@ -58,7 +58,7 @@ If you installed the Django admin application, you should be able to see the pod
 
 == Dependencies ==
 
-None. However, consider a thumbnail creation utility, such as [http://code.google.com/p/sorl-thumbnail/ sorl-thumbnail], if you are not in control of creating your podcast show artwork. The show artwork must be a maximum width of 600 pixels for iTunes, and you might want to size down show artwork on your website.
+None. However, consider a thumbnail creation utility, such as [http://code.google.com/p/sorl-thumbnail/ sorl-thumbnail], if you are not in control of creating your podcast show artwork. The show artwork should be a width and height of 600 pixels for iTunes, and you might want to size down show artwork on your website.
 
 == Web site URLs ==
 
@@ -82,7 +82,7 @@ Where `title-of-show` is the slug of your show. Remember to check the checkbox f
 
     `http://feeds.feedburner.com/TitleOfShow`
 
-You can now return to your website's admin and paste this URL into your Show object's FeedBurner text input. For bonus points, submit your FeedBurner URL to the iTunes Store. Your iTunes podcast URL should be something like:
+You can now return to your website's admin and paste this URL into your Show object's FeedBurner text input. For bonus points, [https://phobos.apple.com/WebObjects/MZFinance.woa/wa/publishPodcast submit your FeedBurner URL to the iTunes Store]. Your iTunes podcast URL should then be something like:
 
     `http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000`
 
@@ -100,6 +100,15 @@ The iTunes Store checks new content daily but you might want to make a new episo
 
 Alternatively, if you're a savvy developer, you could set up a `cron` job to handle this, but note that pinging too often could result in a removal from the iTunes Store.
 
+== Yahoo! Media RSS feed submission ==
+
+Likewise, considering [http://search.yahoo.com/mrss/submit submitting your podcast to Yahoo! Search], which specifically accepts any kind of regularly published media-based (audio, video, image, document, etc.) RSS 2.0 feed or Media RSS feed.
+
+Your Media RSS feed should be something like:
+
+    `http://www.example.com/podcasts/title-of-show/media/`
+
+
 == Google video sitemaps ==
 
 If you're creating a video podcast, you can submit a video sitemap to [http://www.google.com/webmasters/tools/ Google Webmaster Tools]. The video sitemap will help Google index videos in [http://video.google.com Google Video].
@@ -112,13 +121,19 @@ After a successful installation, the video sitemap URL should be something like:
 
 Some URLs that helped me and could help you:
 
- * [http://cyber.law.harvard.edu/rss/rss.html RSS 2.0 Specification]
- * [http://www.apple.com/itunes/store/podcaststechspecs.html Apple iTunes podcast technical specification]
- * [http://search.yahoo.com/mrss Media RSS Module - RSS 2.0 Module]
+ * [http://cyber.law.harvard.edu/rss/rss.html RSS 2.0 specification]
+ * [http://www.apple.com/itunes/whatson/podcasts/specs.html Apple iTunes podcast technical specification]
+ * [http://search.yahoo.com/mrss Media RSS 2.0 Module specification]
+ * [http://www.google.com/webmasters/tools/video/en/video.html Google Video Media RSS Specification]
+ * [http://www.w3.org/2005/07/media-and-rss.html Comparing Media RSS formats]
+ * [http://www.webmonkey.com/tutorial/Use_Media_RSS Use Media RSS]
+ * [http://www.atomenabled.org/developers/syndication/atom-format-spec.php Atom syndication format specification]
+ * [http://www.opml.org/spec2 OPML 2.0 specification]
  * [http://lists.apple.com/archives/syndication-dev/2006/Jan/msg00020.html Unofficial documentation of iPhoto 6.0 photocasting feeds]
+ * [http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewGenre?id=26 Apple iTunes podcasts]
  * [http://www.google.com/support/webmasters/bin/topic.py?topic=10079 Google video sitemaps]
  * [http://www.feedvalidator.org Feed Validator]
- * [http://www.kerstetter.net/page53/page54/page54.html MetaX, Macintosh meta-data tagger] (for saving episode-specific artwork)
+ * [http://www.kerstetter.net/page53/page54/page54.html MetaX, Macintosh meta-data tagger] (for saving episode-specific artwork and other meta data)
  * [http://www.techspansion.com/visualhub/ VisualHub]
 
 For the curious, django-podcast is compatible with enhanced podcasts and HD podcasts; both depend on the respective file's preparation and not on the feeds.

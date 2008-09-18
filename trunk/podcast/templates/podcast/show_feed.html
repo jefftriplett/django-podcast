@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
 {% regroup object_list by show as show_list %}
 {% for show in show_list %}
 <channel>
@@ -7,9 +7,13 @@
     <link>{{ show.grouper.link }}</link>
     <description>{{ show.grouper.description|striptags }}</description>
     <language>{{ show.grouper.language }}</language>
-    <copyright>&#x2117; &amp; &#xA9; {% now "Y" %} {{ show.grouper.organization }}</copyright>
+    <copyright>&#x2117; &amp; &#xA9; {% now "Y" %} {{ show.grouper.organization }} {{ show.grouper.copyright }}</copyright>
+    <managingEditor>{% if show.grouper.author.email %}{{ show.grouper.author.email }}{% endif %}</managingEditor>
+    {% if show.grouper.author.email or show.grouper.webmaster.email %}<webMaster>{% if show.grouper.webmaster.email %}{{ show.grouper.webmaster.email }}{% else %}{{ show.grouper.author.email }}{% endif %}</webMaster>{% endif %}
     <lastBuildDate>{{ show.list.0.date|date:"r" }}</lastBuildDate>
     {% for category in show.grouper.category.all %}<category>{{ category.name }}</category>{% endfor %}
+    <generator>Django Web Framework</generator>
+    <docs>http://blogs.law.harvard.edu/tech/rss</docs>
     <ttl>{{ show.grouper.ttl }}</ttl>
     <image>
       <url>{{ show.grouper.image.url }}</url>
@@ -25,7 +29,7 @@
     <itunes:summary>{% if show.grouper.summary %}{{ show.grouper.summary|striptags }}{% else %}{{ show.grouper.description|striptags }}{% endif %}</itunes:summary>
     <itunes:image href="{{ show.grouper.image.url }}" />
     {% for category in show.grouper.category.all %}<itunes:category text="{{ category.name }}"></itunes:category>{% endfor %}
-    <itunes:explicit>{{ show.grouper.explicit }}</itunes:explicit>
+    <itunes:explicit>{{ show.grouper.explicit|lower }}</itunes:explicit>
     {% if show.grouper.block %}<itunes:block>{{ show.grouper.block }}</itunes:block>{% endif %}
     {% if show.grouper.redirect %}<itunes:new-feed-url>{{ show.grouper.redirect }}</itunes:new-feed-url>{% endif %}
 
@@ -45,7 +49,7 @@
         <itunes:summary>{% if episode.summary %}{{ episode.summary|striptags }}{% else %}{{ episode.description|striptags }}{% endif %}</itunes:summary>
         <itunes:duration>{{ episode.minutes }}:{{ episode.seconds }}</itunes:duration>
         <itunes:keywords>{{ episode.keywords }}</itunes:keywords>
-        <itunes:explicit>{{ episode.explicit }}</itunes:explicit>
+        <itunes:explicit>{{ episode.explicit|lower }}</itunes:explicit>
         {% if episode.block %}<itunes:block>{{ episode.block }}</itunes:block>{% endif %}
     </item>
     {% endfor %}
