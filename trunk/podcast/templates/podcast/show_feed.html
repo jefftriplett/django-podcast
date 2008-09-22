@@ -6,30 +6,38 @@
     <title>{{ show.grouper.title }}</title>
     <link>{{ show.grouper.link }}</link>
     <description>{{ show.grouper.description|striptags }}</description>
-    <language>{{ show.grouper.language }}</language>
+    {% if show.grouper.language %}<language>{{ show.grouper.language }}</language>{% endif %}
     <copyright>&#x2117; &amp; &#xA9; {% now "Y" %} {{ show.grouper.organization }} {{ show.grouper.copyright }}</copyright>
-    <managingEditor>{% if show.grouper.author.email %}{{ show.grouper.author.email }}{% endif %}</managingEditor>
+    {% if show.grouper.author.email %}<managingEditor>{{ show.grouper.author.email }}</managingEditor>{% endif %}
     {% if show.grouper.author.email or show.grouper.webmaster.email %}<webMaster>{% if show.grouper.webmaster.email %}{{ show.grouper.webmaster.email }}{% else %}{{ show.grouper.author.email }}{% endif %}</webMaster>{% endif %}
     <lastBuildDate>{{ show.list.0.date|date:"r" }}</lastBuildDate>
     {% for category in show.grouper.category.all %}<category>{{ category.name }}</category>{% endfor %}
     <generator>Django Web Framework</generator>
     <docs>http://blogs.law.harvard.edu/tech/rss</docs>
-    <ttl>{{ show.grouper.ttl }}</ttl>
+    {% if show.grouper.ttl %}<ttl>{{ show.grouper.ttl }}</ttl>{% endif %}
+    {% if show.grouper.image %}
     <image>
       <url>{{ show.grouper.image.url }}</url>
       <title>{{ show.grouper.title }}</title>
       <link>{{ show.grouper.link }}</link>
     </image>
+    {% endif %}
     <itunes:author>{{ show.grouper.organization }}</itunes:author>
     <itunes:owner>
-        <itunes:name>{% if show.grouper.author.first_name or show.grouper.author.last_name %}{% if show.grouper.author.first_name and show.grouper.author.last_name %}{{ show.grouper.author.first_name }} {{ show.grouper.author.last_name }}{% endif %}{% if show.grouper.author.first_name and not show.grouper.author.last_name %}{{ show.grouper.author.first_name }}{% endif %}{% if show.grouper.author.last_name and not show.grouper.author.first_name %}{{ show.grouper.author.last_name }}{% endif %}{% else %}{{ show.grouper.author.username }}{% endif %}</itunes:name>
+        <itunes:name>
+        {% for show.grouper.author in show.grouper.author_set.all %}
+        
+        {% if show.grouper.author.first_name or show.grouper.author.last_name %}{% if show.grouper.author.first_name and show.grouper.author.last_name %}{{ show.grouper.author.first_name }} {{ show.grouper.author.last_name }}{% endif %}{% if show.grouper.author.first_name and not show.grouper.author.last_name %}{{ show.grouper.author.first_name }}{% endif %}{% if show.grouper.author.last_name and not show.grouper.author.first_name %}{{ show.grouper.author.last_name }}{% endif %}{% else %}{{ show.grouper.author.username }}{% endif %}, 
+        
+        {% endfor %}
+        </itunes:name>
         <itunes:email>{% if show.grouper.author.email %}{{ show.grouper.author.email }}{% endif %}</itunes:email>
     </itunes:owner>
-    <itunes:subtitle>{{ show.grouper.subtitle }}</itunes:subtitle>
+    {% if show.grouper.subtitle %}<itunes:subtitle>{{ show.grouper.subtitle }}</itunes:subtitle>{% endif %}
     <itunes:summary>{% if show.grouper.summary %}{{ show.grouper.summary|striptags }}{% else %}{{ show.grouper.description|striptags }}{% endif %}</itunes:summary>
-    <itunes:image href="{{ show.grouper.image.url }}" />
-    {% for category in show.grouper.category.all %}<itunes:category text="{{ category.name }}"></itunes:category>{% endfor %}
-    <itunes:explicit>{{ show.grouper.explicit|lower }}</itunes:explicit>
+    {% if show.grouper.image.url %}<itunes:image href="{{ show.grouper.image.url }}" />{% endif %}
+    {% if show.grouper.category %}{% for category in show.grouper.category.all %}<itunes:category text="{{ category.name }}"></itunes:category>{% endfor %}{% endif %}
+    {% if show.grouper.explicit %}<itunes:explicit>{{ show.grouper.explicit|lower }}</itunes:explicit>{% endif %}
     {% if show.grouper.block %}<itunes:block>{{ show.grouper.block }}</itunes:block>{% endif %}
     {% if show.grouper.redirect %}<itunes:new-feed-url>{{ show.grouper.redirect }}</itunes:new-feed-url>{% endif %}
 
