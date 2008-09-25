@@ -33,7 +33,9 @@
 
 <h3>{{ show.organization }}</h3>
 
+{% if show.image %}
 <div class="image"><a href="{{ show.get_absolute_url }}"><img src="{{ show.image.url }}" width="{{ show.image.width }}" height="{{ show.image.height }}" alt="{{ show.organization }} show logo" /></a></div>
+{% endif %}
 
 <p>{% if show.summary %}{{ show.summary|striptags }}{% else %}{{ show.description|striptags }}{% endif %}</p>
 {% endfor %}
