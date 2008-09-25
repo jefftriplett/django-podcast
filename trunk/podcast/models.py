@@ -421,7 +421,7 @@ class Episode(models.Model):
     title = models.CharField(max_length=255, help_text='Make it specific but avoid explicit language. Limit to 100 characters for a Google video sitemap.')
     slug = models.SlugField(unique=True, help_text='Auto-generated from Title.')
     description_type = models.CharField('Description type', max_length=255, blank=True, default='Plain', choices=TYPE_CHOICES)
-    description = models.TextField(help_text='Avoid explicit language; allows 2,048 characters for a Google video sitemap.')
+    description = models.TextField(help_text='Avoid explicit language. Google video sitempas allow 2,048 characters.')
     captions = models.FileField(upload_to='podcasts/episodes/captions/', help_text='For video podcasts. Good captioning choices include <a href="http://en.wikipedia.org/wiki/SubViewer">SubViewer</a>, <a href="http://en.wikipedia.org/wiki/SubRip">SubRip</a> or <a href="http://www.w3.org/TR/ttaf1-dfxp/">TimedText</a>.', blank=True)
     category = models.CharField(max_length=255, blank=True, help_text='Limited to one user-specified category for the sake of sanity.')
     domain = models.URLField(blank=True, help_text='A URL that identifies a categorization taxonomy.')
@@ -445,8 +445,8 @@ class Episode(models.Model):
     deny = models.BooleanField(default=False, help_text='Check to deny episode to be shown to users from specified countries.')
     restriction = models.CharField(max_length=255, blank=True, help_text='A space-delimited list of <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">ISO 3166-1-coded countries</a>.')
     # Dublin Core
-    start = models.DateTimeField(blank=True, help_text='Start date and time that the media is valid.')
-    end = models.DateTimeField(blank=True, help_text='End date and time that the media is valid.')
+    start = models.DateTimeField(blank=True, null=True, help_text='Start date and time that the media is valid.')
+    end = models.DateTimeField(blank=True, null=True, help_text='End date and time that the media is valid.')
     scheme = models.CharField(max_length=255, blank=True, default='W3C-DTF')
     name = models.CharField(max_length=255, blank=True, help_text='Any helper name to distinguish this time period.')
     # Google Media

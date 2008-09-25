@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class CategoryInline(admin.StackedInline):
     model = ChildCategory
-    extra = 5
+    extra = 3
 
 class ParentCategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
@@ -32,7 +32,7 @@ class ShowAdmin(admin.ModelAdmin):
 
 class EnclosureInline(admin.StackedInline):
     model = Enclosure
-    extra = 3
+    extra = 1
     fieldsets = (
         (None, {
             'fields': ('file', ('mime', 'medium'), 'frame', 'bitrate', 'sample', 'channel', ('algo', 'hash'), 'player', 'embed', ('width', 'height'))

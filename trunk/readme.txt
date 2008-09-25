@@ -128,11 +128,11 @@ Some URLs that helped me and could help you:
  * [http://www.w3.org/2005/07/media-and-rss.html Comparing Media RSS formats]
  * [http://www.webmonkey.com/tutorial/Use_Media_RSS Use Media RSS]
  * [http://www.atomenabled.org/developers/syndication/atom-format-spec.php Atom syndication format specification]
- * [http://www.opml.org/spec2 OPML 2.0 specification]
  * [http://lists.apple.com/archives/syndication-dev/2006/Jan/msg00020.html Unofficial documentation of iPhoto 6.0 photocasting feeds]
- * [http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewGenre?id=26 Apple iTunes podcasts]
  * [http://www.google.com/support/webmasters/bin/topic.py?topic=10079 Google video sitemaps]
  * [http://www.feedvalidator.org Feed Validator]
+ * [http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewGenre?id=26 Apple iTunes podcasts]
+ * [http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewRoom?fcId=258879357&id=20814 Apple iTunes HD podcasts]
  * [http://www.kerstetter.net/page53/page54/page54.html MetaX, Macintosh meta-data tagger] (for saving episode-specific artwork and other meta data)
  * [http://www.techspansion.com/visualhub/ VisualHub]
 
