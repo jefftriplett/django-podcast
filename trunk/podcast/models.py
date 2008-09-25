@@ -248,9 +248,9 @@ class MediaCategory(models.Model):
 class Episode(models.Model):
     """Episode model."""
     STATUS_CHOICES = (
-        ('Draft', 'Draft'),
-        ('Public', 'Public'),
-        ('Private', 'Private'),
+        (1, 'Draft'),
+        (2, 'Public'),
+        (3, 'Private'),
     )
     SECONDS_CHOICES = tuple(('%02d' % x, str(x)) for x in range(60))
     EXPLICIT_CHOICES = (
@@ -425,7 +425,7 @@ class Episode(models.Model):
     captions = models.FileField(upload_to='podcasts/episodes/captions/', help_text='For video podcasts. Good captioning choices include <a href="http://en.wikipedia.org/wiki/SubViewer">SubViewer</a>, <a href="http://en.wikipedia.org/wiki/SubRip">SubRip</a> or <a href="http://www.w3.org/TR/ttaf1-dfxp/">TimedText</a>.', blank=True)
     category = models.CharField(max_length=255, blank=True, help_text='Limited to one user-specified category for the sake of sanity.')
     domain = models.URLField(blank=True, help_text='A URL that identifies a categorization taxonomy.')
-    status = models.CharField(max_length=25, choices=STATUS_CHOICES, default='Public')
+    status = models.IntegerField(choices=STATUS_CHOICES, default=2)
     date = models.DateTimeField(auto_now_add=True)
     # iTunes
     subtitle = models.CharField(max_length=255, help_text='Looks best if only a few words like a tagline.', blank=True)
