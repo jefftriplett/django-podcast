@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from podcast.managers import EpisodeManager
-    
+
 
 class ParentCategory(models.Model):
     """Parent Category model."""
@@ -27,7 +27,7 @@ class ParentCategory(models.Model):
     slug = models.SlugField(blank=True, unique=False, help_text='A <a href="http://docs.djangoproject.com/en/dev/ref/models/fields/#slugfield">slug</a> is a URL-friendly nickname. For example, a slug for "Games & Hobbies" is "games-hobbies".')
 
     class Meta:
-        ordering = ['name']
+        ordering = ['slug']
         verbose_name = 'category (iTunes parent)'
         verbose_name_plural = 'categories (iTunes parent)'
 
@@ -128,7 +128,7 @@ class ChildCategory(models.Model):
     slug = models.SlugField(blank=True, unique=False, help_text='A <a href="http://docs.djangoproject.com/en/dev/ref/models/fields/#slugfield">slug</a> is a URL-friendly nickname. For exmaple, a sllug for "Fashion & Beauty" is "fashion-beauty".')
 
     class Meta:
-        ordering = ['parent', 'name']
+        ordering = ['parent', 'slug']
         verbose_name = 'category (iTunes child)'
         verbose_name_plural = 'categories (iTunes child)'
 
@@ -181,7 +181,7 @@ class Show(models.Model):
     itunes = models.URLField('iTunes Store URL', help_text='Fill this out after saving this show and at least one episode. URL should look like "http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=123456789". See <a href="http://code.google.com/p/django-podcast/">documentation</a> for more.', blank=True)
 
     class Meta:
-        ordering = ['organization', 'title']
+        ordering = ['organization', 'slug']
 
     def __unicode__(self):
         return u'%s' % (self.title)
@@ -237,14 +237,14 @@ class MediaCategory(models.Model):
     slug = models.SlugField(blank=True, unique=False, help_text='A <a href="http://docs.djangoproject.com/en/dev/ref/models/fields/#slugfield">slug</a> is a URL-friendly nickname. For example, a slug for "Games & Hobbies" is "games-hobbies".')
 
     class Meta:
-        ordering = ['name']
+        ordering = ['slug']
         verbose_name = 'category (Media RSS)'
         verbose_name_plural = 'categories (Media RSS)'
 
     def __unicode__(self):
         return u'%s' % (self.name)
-            
-            
+
+
 class Episode(models.Model):
     """Episode model."""
     STATUS_CHOICES = (
@@ -459,7 +459,7 @@ class Episode(models.Model):
     objects = EpisodeManager()
 
     class Meta:
-        ordering = ['-date', 'title']
+        ordering = ['-date', 'slug']
 
     def __unicode__(self):
         return u'%s' % (self.title)
