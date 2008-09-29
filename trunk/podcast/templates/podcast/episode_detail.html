@@ -53,7 +53,7 @@
 
 <p>{% if object.summary %}{{ object.summary|striptags }}{% else %}{{ object.description|striptags }}{% endif %}</p>
 
-<p><strong><a href="{{ object.file.url }}">Download this episode</a></strong> ({{ object.mime }} at {{ object.minutes }}:{{ object.seconds }}) {% if episode.explicit %}(explicit){% endif %}</p>
+<p><strong><a href="{{ object.file.url }}">Download this episode</a></strong> ({{ object.file.size|filesizeformat }} at {{ object.minutes }}:{{ object.seconds }}) {% if episode.explicit %}(explicit){% endif %}</p>
 
 {% if object.captions %}<p><a href="{{ object.captions.url }}">Download the closed captions</a>.</p>{% endif %}
 
