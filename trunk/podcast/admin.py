@@ -36,7 +36,7 @@ class EnclosureInline(admin.StackedInline):
     fieldsets = (
         (None, {
             'fields': ('file', ('mime', 'medium'), 'frame', 'bitrate', 'sample', 'channel', ('algo', 'hash'), 'player', 'embed', ('width', 'height')),
-            'description': ('Only the first enclosure is displayed in plain RSS and iTunes feeds')
+            'description': ('Only the first <em>saved</em> enclosure is displayed in plain RSS and iTunes feeds')
         }),
     )
 
@@ -49,6 +49,7 @@ class EpisodeAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ("title",)}
     list_display = ('title', 'date', 'show')
     list_filter = ('show', 'date')
+    radio_fields = {'title_type': admin.HORIZONTAL, 'description_type': admin.HORIZONTAL, 'status': admin.HORIZONTAL}
     fieldsets = (
         (None, {
             'fields': ('show', 'author', 'title_type', 'title', 'slug', 'description_type', 'description', 'captions', 'category', 'domain', 'status')
