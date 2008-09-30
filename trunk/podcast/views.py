@@ -1,6 +1,6 @@
 from django.views.generic.list_detail import object_list
 from django.views.generic.list_detail import object_detail
-from podcast.models import Episode, Show
+from podcast.models import Episode, Show, Enclosure
 
 
 def episode_detail(request, show_slug, episode_slug):
@@ -78,5 +78,7 @@ def show_list_feed(request, slug):
     return object_list(
         request,
         mimetype='application/rss+xml',
-        queryset=Episode.objects.published().filter(show__slug__exact=slug).order_by('-date')[0:21],
+        queryset=Episode.objects.filter(show__slug__exact=slug).order_by('-date')[0:21],
+        extra_context={
+            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=slug).order_by('-episode__date')},
         template_name='podcast/show_feed.html')

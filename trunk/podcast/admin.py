@@ -23,7 +23,7 @@ class ShowAdmin(admin.ModelAdmin):
     list_filter = ('title', 'organization')
     fieldsets = (
         (None, {
-            'fields': ('organization', ('author', 'webmaster'), ('title', 'slug'), 'link', 'description', 'image', ('language', 'ttl'), 'copyright', 'copyright_url', 'feedburner')
+            'fields': ('organization', ('author', 'webmaster'), ('title', 'slug'), 'link', 'description', 'image', ('category_show', 'domain'), ('language', 'ttl'), 'copyright', 'copyright_url', 'feedburner')
         }),
         ('iTunes', {
             'fields': ('subtitle', 'summary', 'category', 'keywords', ('explicit', 'block'), 'redirect', 'itunes')
@@ -35,7 +35,8 @@ class EnclosureInline(admin.StackedInline):
     extra = 1
     fieldsets = (
         (None, {
-            'fields': ('file', ('mime', 'medium'), 'frame', 'bitrate', 'sample', 'channel', ('algo', 'hash'), 'player', 'embed', ('width', 'height'))
+            'fields': ('file', ('mime', 'medium'), 'frame', 'bitrate', 'sample', 'channel', ('algo', 'hash'), 'player', 'embed', ('width', 'height')),
+            'description': ('Only the first enclosure is displayed in plain RSS and iTunes feeds')
         }),
     )
 

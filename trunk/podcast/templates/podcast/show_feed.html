@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
-{% regroup object_list by show as show_list %}{% for show in show_list %}
-<channel>
+
+{% regroup object_list by show as show_list %}{% for show in show_list %}<channel>
     <title>{{ show.grouper.title }}</title>
     <link>{{ show.grouper.link }}</link>
     <description>{{ show.grouper.description|striptags }}</description>
@@ -30,19 +30,20 @@
     {% if show.grouper.category.all %}{% for category in show.grouper.category.all %}{% if category.name %}<itunes:category text="{{ category.parent.name }}">
       <itunes:category text="{{ category.name }}" />
     </itunes:category>
-    {% else %}<itunes:category text="{{ category.parent.name }}" />{% endif %}{% endfor %}{% endif %}
+    {% else %}<itunes:category text="{{ category.parent.name }}" />
+    {% endif %}{% endfor %}{% endif %}
     {% if show.grouper.explicit %}<itunes:explicit>{{ show.grouper.explicit|lower }}</itunes:explicit>{% endif %}
     {% if show.grouper.block %}<itunes:block>yes</itunes:block>{% endif %}
     {% if show.grouper.redirect %}<itunes:new-feed-url>{{ show.grouper.redirect }}</itunes:new-feed-url>{% endif %}
-    {% for episode in show.list %}
-    <item>
+    
+    {% for episode in show.list %}<item>
         <title>{{ episode.title }}</title>
-        <link>{{ episode.file.url }}</link>
+        <link>{{ enclosure_list.all.0.file.url }}</link>
         <description>{{ episode.description|striptags }}</description>
         <author>{% for author in show.grouper.author.all %}{{ author.email }}{% if forloop.last %}{% else %}, {% endif %}{% endfor %}</author>
         {% if episode.category %}<category{% if episode.domain %} url="{{ episode.domain }}"{% endif %}>{{ episode.category }}</category>{% endif %}
-        <enclosure url="{{ episode.file.url }}" length="{{ episode.file.size }}" type="{{ episode.mime }}" />
-        <guid isPermalink="true">{{ episode.file.url }}</guid>
+        <enclosure url="{{ enclosure_list.all.0.file.url }}" length="{{ enclosure_list.all.0.file.size }}" type="{{ enclosure_list.all.0.mime }}" />
+        <guid isPermalink="true">{{ enclosure_list.all.0.file.url }}</guid>
         <pubDate>{{ episode.date|date:"r" }} GMT</pubDate>
         <itunes:author>{% for author in episode.author.all %}{% if forloop.first %}{% else %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{% if author.first_name or author.last_name %}{% if author.first_name and author.last_name %}{{ author.first_name }} {{ author.last_name }}{% endif %}{% if author.first_name and not author.last_name %}{{ author.first_name }}{% endif %}{% if author.last_name and not author.first_name %}{{ author.last_name }}{% endif %}{% else %}{{ author.username }}{% endif %}{% endfor %}</itunes:author>
         {% if episode.subtitle %}<itunes:subtitle>{{ episode.subtitle }}</itunes:subtitle>{% endif %}
@@ -53,6 +54,7 @@
         {% if episode.block %}<itunes:block>yes</itunes:block>{% endif %}
     </item>
     {% endfor %}
+    
 </channel>
 {% endfor %}
 </rss>
