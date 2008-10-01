@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>{% block title %}{{ object.title }} &#8226; {{ object.show.title }}{% endblock %}</title>
-<link rel="alternate" type="application/rss+xml" title="{{ object.show.organization }} podcast feed" href="#" />
+<link rel="alternate" type="application/rss+xml" title="{{ object.title }} podcast feed" href="{% url podcast_feed object.show.slug %}" />
 <link href="http://django-podcast.googlecode.com/svn/trunk/podcast/media/base.css" rel="stylesheet" type="text/css" media="screen" />
 </head>
 
@@ -28,32 +28,38 @@
 <div id="content">
 {% block content %}
 
-<p class="back"><a href="../">Return to shows</a></p>
+<p class="back"><a href="{% url podcast_episodes object.show.slug %}">Return to episodes</a></p>
 
 <h2>{{ object.title }}</h2>
 
-<h3>{{ object.subtitle }}</h3>
+{% if object.subtitle %}<h3>{{ object.subtitle }}</h3>{% endif %}
 
 {% if object.image %}<div class="image"><img src="{{ object.image.url }}" width="{{ object.image.width }}" height="{{ object.image.height }}" alt="{{ object.title }} episode screenshot" /></div>{% endif %}
 
 <dl>
   <dt>Date</dt>
-  <dd>{{ object.date|date:"F g, Y, g:m a" }}</dd>
+    <dd>{{ object.date|date:"F g, Y, g:m a" }}</dd>
   <dt>Show</dt>
-  <dd><a href="../">{{ object.show.title }}</a></dd>
-  <dt>Author</dt>
-  <dd>{% if object.author.email %}<a href="mailto:{{ object.author.email }}">{% endif %}{% if object.author.first_name or object.author.last_name %}{% if object.author.first_name and object.author.last_name %}{{ object.author.first_name }} {{ object.author.last_name }}{% endif %}{% if object.author.first_name and not object.author.last_name %}{{ object.author.first_name }}{% endif %}{% if object.author.last_name and not object.author.first_name %}{{ object.author.last_name }}{% endif %}{% else %}{{ object.author.username }}{% endif %}{% if object.author.email %}</a>{% endif %}</dd>
+    <dd><a href="{% url podcast_episodes object.show.slug %}">{{ object.show.title }}</a></dd>
+  <dt>Author</dt>{% for author in object.author.all %}
+    <dd>{% if author.email %}<a href="mailto:{{ author.email }}">{% endif %}{% if author.first_name or author.last_name %}{% if author.first_name and author.last_name %}{{ author.first_name }} {{ author.last_name }}{% endif %}{% if author.first_name and not author.last_name %}{{ author.first_name }}{% endif %}{% if author.last_name and not author.first_name %}{{ author.last_name }}{% endif %}{% else %}{{ author.username }}{% endif %}{% if author.email %}</a>{% endif %}</dd>{% endfor %}
   <dt>RSS</dt>
-    <dd><a href="#">Subscribe</a></dd>
+    <dd><a href="{% url podcast_feed object.show.slug %}">Subscribe</a></dd>
   {% if object.show.feedburner %}<dt>FeedBurner</dt>
     <dd><a href="{{ object.show.feedburner }}">Subscribe</a></dd>{% endif %}
   {% if object.show.itunes %}<dt>iTunes</dt>
     <dd><a href="{{ object.show.itunes }}">Subscribe</a></dd>{% endif %}
 </dl>
 
-<p>{% if object.summary %}{{ object.summary|striptags }}{% else %}{{ object.description|striptags }}{% endif %}</p>
+<p>{% if object.summary %}{{ object.summary }}{% else %}{{ object.description|striptags }}{% endif %}</p>
 
-<p><strong><a href="{{ object.file.url }}">Download this episode</a></strong> ({{ object.file.size|filesizeformat }} at {{ object.minutes }}:{{ object.seconds }}) {% if episode.explicit %}(explicit){% endif %}</p>
+<h3>Download this episode</h3>
+
+<ul>
+  {% for enclosure in enclosure_list %}
+  <li><a href="{{ enclosure.file.url }}"><strong>{{ object.title }}</strong></a> ({{ enclosure.file.size|filesizeformat }})</li>
+  {% endfor %}
+</ul>
 
 {% if object.captions %}<p><a href="{{ object.captions.url }}">Download the closed captions</a>.</p>{% endif %}
 
@@ -64,7 +70,7 @@
 <div id="footer-wrap">
 <div id="footer">
 {% block footer %}
-<p>&#169; {% now "Y" %} {{ object.show.organization }}. <a href="#">Subscribe</a>.</p>
+<p>&#169; {% now "Y" %} {{ object.show.organization }}. <a href="{% url podcast_feed object.show.slug %}">Subscribe</a>.</p>
 {% endblock %}
 </div>
 </div>

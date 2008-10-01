@@ -17,10 +17,13 @@ h2 a { color: #092e20; }
 h2 a:hover { background: #e0ffb8; color: #574f32; text-decoration: none; }
 h3 { padding: 0 16px 8px; font-size: 1em; color: #444; font-weight: normal; }
 h4, h5 { padding: 0 16px 8px; }
+ul, li { margin: 0; padding: 0; list-style: none; }
+ul { margin: 0 8px 16px; }
+li { margin-left: 24px; list-style: square; font-size: .85em; line-height: 24px; }
 dl, dt, dd { padding: 8px 0; color: #000; }
 dt, dd { font-size: .8em; padding: 0 16px 8px; }
 dt { font-weight: bold; float: left; text-align: right; width: 80px; }
-dd { margin-left: 90px; }
+dd { margin-left: 100px; }
 #content p { padding: 0 16px 16px; font-size: .8em; line-height: 1.25em; }
 #content p.back { padding: 16px 16px 0; }
 #footer p { padding: 0 16px; font-size: .7em; color: #467856; font-family: verdana, tahoma, sans-serif; }

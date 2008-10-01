@@ -31,13 +31,13 @@
 
 <h2><a href="{{ show.get_absolute_url }}">{{ show.title }}</a></h2>
 
+<h3>{{ show.organization }}</h3>
+
 {% if show.image %}
 <div class="image"><a href="{{ show.get_absolute_url }}"><img src="{{ show.image.url }}" width="{{ show.image.width }}" height="{{ show.image.height }}" alt="{{ show.organization }} show logo" /></a></div>
 {% endif %}
 
-<h3>{{ show.organization }}</h3>
-
-<p>{% if show.summary %}{{ show.summary|striptags }}{% else %}{{ show.description|striptags }}{% endif %}</p>
+<p>{% if show.summary %}{{ show.summary }}{% else %}{{ show.description|striptags }}{% endif %}</p>
 {% endfor %}
 
 {% endblock %}

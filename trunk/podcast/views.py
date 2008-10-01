@@ -17,6 +17,8 @@ def episode_detail(request, show_slug, episode_slug):
         queryset=Episode.objects.published().filter(show__slug__exact=show_slug),
         slug=episode_slug,
         slug_field='slug',
+        extra_context={
+            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=show_slug).order_by('-episode__date')},
         template_name='podcast/episode_detail.html')
 
 
@@ -48,6 +50,8 @@ def episode_sitemap(request, slug):
         request,
         mimetype='application/xml',
         queryset=Episode.objects.published().filter(show__slug__exact=slug).order_by('-date'),
+        extra_context={
+            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=slug).order_by('-episode__date')},
         template_name='podcast/episode_sitemap.html')
 
 
