@@ -15,7 +15,7 @@ urlpatterns = patterns('podcast.views',
     url(r'^(?P<slug>[-\w]+)/atom/$', view='show_list_feed', name='podcast_atom'),
     
     # Episode list feed by show (Media RSS)
-    url(r'^(?P<slug>[-\w]+)/media/$', view='show_list_feed', name='podcast_media'),
+    url(r'^(?P<slug>[-\w]+)/media/$', view='show_list_media', name='podcast_media'),
 
     # Episode list feed by show (Photocast)
     url(r'^(?P<slug>[-\w]+)/photocast/$', view='show_list_feed', name='podcast_photo'),

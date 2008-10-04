@@ -443,7 +443,7 @@ class Episode(models.Model):
     standard = models.CharField(max_length=255, blank=True, choices=STANDARD_CHOICES, default='Simple')
     rating = models.CharField(max_length=255, blank=True, choices=RATING_CHOICES, help_text='If used, selection must match respective Scheme selection.', default='Nonadult')
     image = models.ImageField(upload_to='podcasts/episodes/img/', help_text='A still image from a video file, but for episode artwork to display in iTunes, image must be <a href="http://answers.yahoo.com/question/index?qid=20080501164348AAjvBvQ">saved to file\'s <strong>metadata</strong></a> before episode uploading!', blank=True)
-    text = models.TextField(blank=True, help_text='Media RSS text transcript. Please see the <a href="https://www.google.com/webmasters/tools/video/en/video.html#tagMediaText">Media RSS 2.0</a> specification for syntax.')
+    text = models.TextField(blank=True, help_text='Media RSS text transcript. Must use <media:text> tags. Please see the <a href="https://www.google.com/webmasters/tools/video/en/video.html#tagMediaText">Media RSS 2.0</a> specification for syntax.')
     deny = models.BooleanField(default=False, help_text='Check to deny episode to be shown to users from specified countries.')
     restriction = models.CharField(max_length=255, blank=True, help_text='A space-delimited list of <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">ISO 3166-1-coded countries</a>.')
     # Dublin Core
@@ -452,6 +452,7 @@ class Episode(models.Model):
     scheme = models.CharField(max_length=255, blank=True, default='W3C-DTF')
     name = models.CharField(max_length=255, blank=True, help_text='Any helper name to distinguish this time period.')
     # Google Media
+    preview = models.BooleanField(default=False, help_text="Check to allow Google to show a preview of your media in search results.")
     preview_start_mins = models.PositiveIntegerField('Preview start (minutes)', blank=True, null=True, help_text='Start time (minutes) of the media\'s preview, <br />shown on Google.com search results before <br />clicking through to see full video.')
     preview_start_secs = models.CharField('Preview start (seconds)', max_length=2, blank=True, null=True, choices=SECONDS_CHOICES, help_text='Start time (seconds) of the media\'s preview.')
     preview_end_mins = models.PositiveIntegerField('Preview end (minutes)', blank=True, null=True, help_text='End time (minutes) of the media\'s preview, <br />shown on Google.com search results before <br />clicking through to see full video.')

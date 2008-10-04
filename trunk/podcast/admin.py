@@ -35,7 +35,7 @@ class EnclosureInline(admin.StackedInline):
     extra = 1
     fieldsets = (
         (None, {
-            'fields': ('file', ('mime', 'medium'), 'frame', 'bitrate', 'sample', 'channel', ('algo', 'hash'), 'player', 'embed', ('width', 'height')),
+            'fields': ('file', ('mime', 'medium'), 'expression', 'frame', 'bitrate', 'sample', 'channel', ('algo', 'hash'), 'player', 'embed', ('width', 'height')),
             'description': ('Only the first <em>saved</em> enclosure is displayed in plain RSS and iTunes feeds')
         }),
     )
@@ -67,7 +67,7 @@ class EpisodeAdmin(admin.ModelAdmin):
         }),
         ('Google Media', {
             'classes': ('collapse',),
-            'fields': (('preview_start_mins', 'preview_start_secs'), ('preview_end_mins', 'preview_end_secs'), 'host')
+            'fields': ('preview', ('preview_start_mins', 'preview_start_secs'), ('preview_end_mins', 'preview_end_secs'), 'host')
         }),
     )
 
