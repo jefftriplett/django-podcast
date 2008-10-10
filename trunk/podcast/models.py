@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import permalink
 from django.contrib.auth.models import User
 from podcast.managers import EpisodeManager
 
@@ -188,8 +189,9 @@ class Show(models.Model):
     def __unicode__(self):
         return u'%s' % (self.title)
 
+    @models.permalink
     def get_absolute_url(self):
-        return '%s/' % (self.slug)
+        return ('podcast_episodes', (), { 'slug': self.slug })
 
 
 class MediaCategory(models.Model):
@@ -467,8 +469,9 @@ class Episode(models.Model):
     def __unicode__(self):
         return u'%s' % (self.title)
 
+    @models.permalink
     def get_absolute_url(self):
-        return '%s/' % (self.slug)
+        return ('podcast_episode', (), { 'show_slug': self.show.slug, 'episode_slug': self.slug })
 
     def seconds_total(self):
         try:

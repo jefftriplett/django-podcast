@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
- 
- <title></title>
- <subtitle></subtitle>
- <link href="" rel="self"/>
- <link href="" />
- <updated>2003-12-13T18:30:02Z</updated>
- <author>
-   <name></name>
-   <email></email>
- </author>
- <id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
- 
- <entry>
-   <title></title>
-   <link href="" />
-   <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
-   <updated>2003-12-13T18:30:02Z</updated>
-   <summary></summary>
- </entry>
- 
+{% regroup object_list by show as show_list %}{% for show in show_list %} 
+    <title>{{ show.grouper.title }}</title>
+    <link href="{{ show.grouper.link }}"/>
+    <updated>{{ show.list.0.date|date:"Y-m-d" }}T{{ show.list.0.date|date:"H:i:s" }}Z</updated>
+    <author>
+       <name>{{% for author in show.grouper.author.all %}{% if forloop.first %}{% else %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{% if author.first_name or author.last_name %}{% if author.first_name and author.last_name %}{{ author.first_name }} {{ author.last_name }}{% endif %}{% if author.first_name and not author.last_name %}{{ author.first_name }}{% endif %}{% if author.last_name and not author.first_name %}{{ author.last_name }}{% endif %}{% else %}{{ author.username }}{% endif %}{% endfor %}</name>
+    </author>
+    <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
+
+    {% for episode in show.list %}
+    <entry>
+        <title>{{ episode.title }}</title>
+        <link href="{{ enclosure_list.all.0.file.url }}"/>
+        <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+        <updated>{{ episode.date|date:"Y-m-d" }}T{{ episode.date|date:"H:i:s" }}Z</updated>
+        <summary>{% if episode.summary %}{{ episode.summary }}{% else %}{{ episode.description }}{% endif %}</summary>
+    </entry>
+    {% endfor %}
+    
 </feed>
