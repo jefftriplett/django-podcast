@@ -20,12 +20,12 @@ If you're developing on a web host, Python is probably already installed. To che
 
 == Installation ==
 
-Check out django-podcast from the Google Code Subversion repository. Typically, you could download it into a `source` packages directory, and then symlink the `podcast` directory to a location that resides on your Python path.
+Check out django-podcast from the Google Code Subversion repository. Typically, you could download it into a `source` packages directory, and then symlink the `podcast` directory to a location that resides on your Python path. If you work with WebFaction (like I do), and assuming your python path is `$HOME/webapps/django/`, it might go like:
 
-    `svn co http://django-podcast.googlecode.com/svn/trunk/ $HOME/source/django-podcast-read-only`
-    
-    `ln -s $HOME/source/django-podcast-read-only/podcast/ $HOME/lib/python/podcast`
-    
+    `mkdir ~/source`
+    `svn co http://django-podcast.googlecode.com/svn/trunk/ $HOME/source/django-podcast-read-only/`
+    `ln -s $HOME/source/django-podcast-read-only/podcast/ $HOME/webapps/django/lib/python2.5/podcast`
+
 Alternatively, you could physically move the "podcast" directory of the Subversion checkout to a location that resides on your Python path, but that would break future Subversion updates.
 
 Add `podcast` as a tuple item to your `INSTALLED_APPS` in `settings.py`:
@@ -37,8 +37,6 @@ Add `podcast` as a tuple item to your `INSTALLED_APPS` in `settings.py`:
       ...
     )
     }}}
-
-Restart your server for Django to see the podcast application. Consult your web hosting's documentation on how to restart your server.
 
 Assuming the Django binary directory is on your Python path, run the `syncdb` command to install the application's database tables.
 
@@ -55,6 +53,8 @@ Add these lines to your URL configuration, `urls.py`:
 If you installed the Django admin application, you should be able to see the podcast application's show and episode areas:
 
     `http://www.example.com/admin/podcast/`
+
+You might need to restart the server for changes to take effect, especially if you are running Django on mod_python.
 
 == Dependencies ==
 
