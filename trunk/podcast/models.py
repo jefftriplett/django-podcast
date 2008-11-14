@@ -181,7 +181,7 @@ class Show(models.Model):
     block = models.BooleanField(default=False, help_text='Check to block this show from iTunes. <br />Show will remain blocked until unchecked.')
     redirect = models.URLField(help_text='The show\'s new URL feed if changing the URL of the current show feed. Must continue old feed for at least two weeks and write a 301 redirect for old feed.', blank=True)
     keywords = models.CharField(max_length=255, help_text='A comma-demlimited list of up to 12 words for iTunes searches. Perhaps include misspellings of the title.', blank=True)
-    itunes = models.URLField('iTunes Store URL', help_text='Fill this out after saving this show and at least one episode. URL should look like "http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=123456789". See <a href="http://code.google.com/p/django-podcast/">documentation</a> for more.', blank=True)
+    itunes = models.URLField('iTunes Store URL', help_text='Fill this out after saving this show and at least one episode. URL should look like "http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000". See <a href="http://code.google.com/p/django-podcast/">documentation</a> for more.', blank=True)
 
     class Meta:
         ordering = ['organization', 'slug']

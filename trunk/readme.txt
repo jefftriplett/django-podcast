@@ -23,7 +23,9 @@ If you're developing on a web host, Python is probably already installed. To che
 Check out django-podcast from the Google Code Subversion repository. Typically, you could download it into a `source` packages directory, and then symlink the `podcast` directory to a location that resides on your Python path. If you work with WebFaction (like I do), and assuming your python path is `$HOME/webapps/django/`, it might go like:
 
     `mkdir ~/source`
+    
     `svn co http://django-podcast.googlecode.com/svn/trunk/ $HOME/source/django-podcast-read-only/`
+    
     `ln -s $HOME/source/django-podcast-read-only/podcast/ $HOME/webapps/django/lib/python2.5/podcast`
 
 Alternatively, you could physically move the "podcast" directory of the Subversion checkout to a location that resides on your Python path, but that would break future Subversion updates.
