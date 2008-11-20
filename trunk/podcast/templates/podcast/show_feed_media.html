@@ -14,7 +14,8 @@
     {% for episode in show.list %}
     <item>
         <pubDate>{{ episode.date|date:"r" }} GMT</pubDate>
-        {% for enclosure in enclosure_list %}
+        {% regroup enclosure_list by episode as enclosures %}
+        {% for enclosure in enclosures %}
         <media:content{% if enclosure.file %} url="{{ enclosure.file.url }}"{% endif %}{% if enclosure.file.medium %} medium="{{ enclosure.file.medium|lower }}"{% endif %}{% if enclosure.file.mime %} type="{{ enclosure.file.mime|lower }}"{% endif %} fileSize="{{ enclosure.file.size }}" lang="{{ episode.show.language|lower }}"{% if enclosure.expression %} expression="{{ enclosure.expression|lower }}"{% endif %}{% if enclosure.bitrate %} bitrate="{{ enclosure.bitrate }}"{% endif %}{% if enclosure.frame %} framerate="{{ enclosure.frame }}"{% endif %}{% if enclosure.sample %} samplingrate="{{ enclosure.sample }}"{% endif %}{% if enclosure.channel %} channels="{{ enclosure.channel }}"{% endif %}{% ifequal enclosure.medium "Image" %} width="{{ enclosure.file.width }}" height="{{ enclosure.file.height }}"{% endifequal %}{% if forloop.first	%} isDefault="true"{% endif %}>
             {% if enclosure.player %}<media:player url="{{ enclosure.player }}"{% if enclosure.width %} width="{{ enclosure.width }}"{% endif %}{% if enclosure.height %} height="{{ enclosure.height }}"{% endif %}/>{% endif %}
             <media:title{% if episode.title_type %} type="{{ episode.title_type|lower }}"{% endif %}>{{ episode.title }}</media:title>
