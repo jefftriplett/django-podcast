@@ -52,7 +52,7 @@
     <dd><a href="{{ show.grouper.itunes }}">Subscribe</a></dd>{% endif %}
 </dl>
 
-<div class="image"><img src="{{ show.grouper.image.url }}" width="{{ show.grouper.image.width }}" height="{{ show.grouper.image.height }}" alt="{{ show.grouper.organization }} show logo" /></div>
+{% if show.grouper.image %}<div class="image"><img src="{{ show.grouper.image.url }}" width="{{ show.grouper.image.width }}" height="{{ show.grouper.image.height }}" alt="{{ show.grouper.organization }} show logo" /></div>{% endif %}
 
 <p>{% if show.grouper.summary %}{{ show.grouper.summary }}{% else %}{{ show.grouper.description|striptags }}{% endif %}</p>
 
