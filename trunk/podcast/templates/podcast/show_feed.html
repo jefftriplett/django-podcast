@@ -26,7 +26,7 @@
     </itunes:owner>
     {% if show.grouper.subtitle %}<itunes:subtitle>{{ show.grouper.subtitle }}</itunes:subtitle>{% endif %}
     <itunes:summary>{% if show.grouper.summary %}{{ show.grouper.summary|striptags }}{% else %}{{ show.grouper.description|striptags }}{% endif %}</itunes:summary>
-    {% if show.grouper.image.url %}<itunes:image href="{{ show.grouper.image.url }}" />{% endif %}
+    {% if show.grouper.image %}<itunes:image href="{{ show.grouper.image.url }}" />{% endif %}
     {% if show.grouper.category.all %}{% for category in show.grouper.category.all %}{% if category.name %}<itunes:category text="{{ category.parent.name }}">
       <itunes:category text="{{ category.name }}" />
     </itunes:category>
