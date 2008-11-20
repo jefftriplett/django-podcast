@@ -18,7 +18,7 @@ def episode_detail(request, show_slug, episode_slug):
         slug=episode_slug,
         slug_field='slug',
         extra_context={
-            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=show_slug).order_by('-episode__date')},
+            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=show_slug).filter(episode__slug__exact=episode_slug).order_by('-episode__date')},
         template_name='podcast/episode_detail.html')
 
 
@@ -84,7 +84,7 @@ def show_list_feed(request, slug):
         mimetype='application/rss+xml',
         queryset=Episode.objects.filter(show__slug__exact=slug).order_by('-date')[0:21],
         extra_context={
-            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=slug).order_by('-episode__date')},
+            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=slug).filter(episode__slug__exact=episode_slug).order_by('-episode__date')},
         template_name='podcast/show_feed.html')
 
 
@@ -102,8 +102,9 @@ def show_list_media(request, slug):
         mimetype='application/rss+xml',
         queryset=Episode.objects.filter(show__slug__exact=slug).order_by('-date')[0:21],
         extra_context={
-            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=slug).order_by('-episode__date')},
+            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=slug).filter(episode__slug__exact=episode_slug).order_by('-episode__date')},
         template_name='podcast/show_feed_media.html')
+
 
 def show_list_atom(request, slug):
     """
@@ -119,5 +120,5 @@ def show_list_atom(request, slug):
         mimetype='application/rss+xml',
         queryset=Episode.objects.filter(show__slug__exact=slug).order_by('-date')[0:21],
         extra_context={
-            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=slug).order_by('-episode__date')},
+            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=slug).filter(episode__slug__exact=episode_slug).order_by('-episode__date')},
         template_name='podcast/show_feed_atom.html')
