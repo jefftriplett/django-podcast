@@ -47,7 +47,7 @@ Assuming the Django binary directory is on your Python path, run the `syncdb` co
 Add these lines to your URL configuration, `urls.py`:
 
     {{{
-    urlpatterns += ('', 
+    urlpatterns += patterns('', 
         (r'^podcasts/', include('podcast.urls')),
     )
     }}}
