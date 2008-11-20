@@ -5,7 +5,7 @@
         <loc>{{ episode.show.link }}</loc>
         <video:video>
             {% if enclosure_list.all.0.file %}{% for enclosure in enclosure_list %}<video:content_loc>{{ enclosure_list.file.url }}</video:content_loc>{% endfor %}{% endif %}
-            {% if enclosure_list.all.0.player %}{% for enclosure in enclosure_list %}<video:player_loc allow_embed="{% if enclosure_list.all.0.embed %}Yes{% else %}No{% endif %}">{{ enclosure_list.all.0.player }}</video:player_loc>{% endif %}{% endfor %}
+            {% if enclosure_list.all.0.player %}{% for enclosure in enclosure_list %}<video:player_loc allow_embed="{% if enclosure_list.all.0.embed %}Yes{% else %}No{% endif %}">{{ enclosure_list.all.0.player }}</video:player_loc>{% endif %}{% endfor %}{% endif %}
             {% if episode.image %}<video:thumbnail_loc>{{ episode.image.url }}</video:thumbnail_loc>{% endif %}
             <video:title>{{ episode.title }}</video:title>
             <video:description>{% if episode.summary %}{{ episode.summary|striptags }}{% else %}{{ episode.description|striptags }}{% endif %}</video:description>
