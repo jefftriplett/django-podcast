@@ -507,8 +507,9 @@ class Enclosure(models.Model):
         ('MD5', 'MD5'),
         ('SHA-1', 'SHA-1'),
     )
-    file = models.FileField(upload_to='podcasts/episodes/files/', help_text='Must be less than or equal to 30 MB for a Google video sitemap.')
-    mime = models.CharField('Format', max_length=255, choices=MIME_CHOICES, default='video/mp4')
+    title = models.CharField(blank=True, help_text='Title is generally only useful with multiple enclosures.')
+    file = models.FileField(upload_to='podcasts/episodes/files/', help_text='Either upload or use the "Player" text box below. If uploading, file must be less than or equal to 30 MB for a Google video sitemap.', blank=True, null=True)
+    mime = models.CharField('Format', max_length=255, choices=MIME_CHOICES, default='video/mp4', blank=True)
     medium = models.CharField(max_length=255, blank=True, choices=MEDIUM_CHOICES)
     expression = models.CharField(max_length=25, blank=True, choices=EXPRESSION_CHOICES, default='Full')
     frame = models.CharField('Frame rate', max_length=5, blank=True, help_text='Measured in frames per second (fps), often 29.97.')

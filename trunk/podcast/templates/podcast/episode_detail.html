@@ -57,7 +57,7 @@
 
 <ul>
   {% for enclosure in enclosure_list %}
-  <li><a href="{{ enclosure.file.url }}"><strong>{{ object.title }}</strong></a> ({{ enclosure.file.size|filesizeformat }})</li>
+  <li><a href="{{ enclosure.file.url }}"><strong>{% if enclosure.file.title %}{{ enclosure.file.title }}{% else %}{{ object.title }}{% endif %}</strong></a> ({{ enclosure.file.size|filesizeformat }})</li>
   {% endfor %}
 </ul>
 
