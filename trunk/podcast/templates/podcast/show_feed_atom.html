@@ -5,7 +5,7 @@
     <link href="{{ show.grouper.link }}"/>
     <updated>{{ show.list.0.date|date:"Y-m-d" }}T{{ show.list.0.date|date:"H:i:s" }}Z</updated>
     <author>
-       <name>{{% for author in show.grouper.author.all %}{% if forloop.first %}{% else %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{% if author.first_name or author.last_name %}{% if author.first_name and author.last_name %}{{ author.first_name }} {{ author.last_name }}{% endif %}{% if author.first_name and not author.last_name %}{{ author.first_name }}{% endif %}{% if author.last_name and not author.first_name %}{{ author.last_name }}{% endif %}{% else %}{{ author.username }}{% endif %}{% endfor %}</name>
+       <name>{% for author in show.grouper.author.all %}{% if forloop.first %}{% else %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{% if author.first_name or author.last_name %}{% if author.first_name and author.last_name %}{{ author.first_name }} {{ author.last_name }}{% endif %}{% if author.first_name and not author.last_name %}{{ author.first_name }}{% endif %}{% if author.last_name and not author.first_name %}{{ author.last_name }}{% endif %}{% else %}{{ author.username }}{% endif %}{% endfor %}</name>
     </author>
     <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
 
