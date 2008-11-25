@@ -83,8 +83,6 @@ def show_list_feed(request, slug):
         request,
         mimetype='application/rss+xml',
         queryset=Episode.objects.filter(show__slug__exact=slug).order_by('-date')[0:21],
-        extra_context={
-            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=slug).order_by('-episode__date')},
         template_name='podcast/show_feed.html')
 
 
