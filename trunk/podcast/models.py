@@ -522,7 +522,7 @@ class Enclosure(models.Model):
     embed = models.BooleanField(help_text='Check to allow Google to embed your external player in search results on <a href="http://video.google.com">Google Video</a>.', blank=True)
     width = models.PositiveIntegerField(blank=True, null=True, help_text='Width of the browser window in <br />which the URL should be opened. <br />YouTube\'s default is 425.')
     height = models.PositiveIntegerField(blank=True, null=True, help_text='Height of the browser window in <br />which the URL should be opened. <br />YouTube\'s default is 344.')
-    episode = models.ForeignKey(Episode, help_text='Include any number of media files; for example, perhaps include an iPhone-optimized, AppleTV-optimized and Flash Video set of video files. Note that the iTunes feed only accepts the first file. More uploading is available after clicking "Save and continue editing."')
+    episode = models.ForeignKey(Episode, related_name='episode_enclosures', help_text='Include any number of media files; for example, perhaps include an iPhone-optimized, AppleTV-optimized and Flash Video set of video files. Note that the iTunes feed only accepts the first file. More uploading is available after clicking "Save and continue editing."')
 
     class Meta:
         ordering = ['mime', 'file']
