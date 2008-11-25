@@ -36,7 +36,7 @@ class EnclosureInline(admin.StackedInline):
     fieldsets = (
         (None, {
             'fields': ('title', 'file', ('mime', 'medium'), 'expression', 'frame', 'bitrate', 'sample', 'channel', ('algo', 'hash'), 'player', 'embed', ('width', 'height')),
-            'description': ('Only the first <em>saved</em> enclosure is displayed in plain RSS and iTunes feeds')
+            'description': ('Only the last <em>saved</em> enclosure is displayed in plain RSS and iTunes feeds')
         }),
     )
 
