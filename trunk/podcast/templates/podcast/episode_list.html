@@ -40,8 +40,8 @@
 {% if show.grouper.explicity %}<p>Explicit</p>{% endif %}
 
 <dl>
-  <dt>Category</dt>
-    <dd>{% for category in show.grouper.category.all|slice:":1" %}{{ category.name }}{% endfor %}</dd>
+  {% if show.grouper.category %}<dt>Category</dt>
+    <dd>{% for category in show.grouper.category.all|slice:":1" %}{{ category.name }}{% endfor %}</dd>{% endif %}
   <dt>Author</dt>{% for author in show.grouper.author.all %}
     <dd>{% if author.email %}<a href="mailto:{{ author.email }}">{% endif %}{% if author.first_name or author.last_name %}{% if author.first_name and author.last_name %}{{ author.first_name }} {{ author.last_name }}{% endif %}{% if author.first_name and not author.last_name %}{{ author.first_name }}{% endif %}{% if author.last_name and not author.first_name %}{{ author.last_name }}{% endif %}{% else %}{{ author.username }}{% endif %}{% if author.email %}</a>{% endif %}</dd>{% endfor %}
   <dt>RSS</dt>
