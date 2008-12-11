@@ -1,34 +1,30 @@
-http://django-podcast.googlecode.com/svn/trunk/podcast/media/logo.png
-
 *django-podcast* is a Django application that allows you to easily publish podcasts that conform to the RSS 2.0 and iTunes RSS podcast specifications.
 
 == Django and Python version ==
 
-django-podcast requires at least [http://code.djangoproject.com/changeset/7967 Django 0.97 revision 7967]. This revision incorporated the newforms-admin branch into trunk and makes the most notable use of it in the categories class of the application's models. However, I *heavily* encourage you to [http://www.djangoproject.com/download/ develop with Django 1.0].
+django-podcast requires at least [http://code.djangoproject.com/changeset/7967 Django 0.97 revision 7967]. This revision incorporated the newforms-admin branch into trunk and makes the most notable use of it in the categories class of the application's models. However, I *heavily* encourage you to [http://www.djangoproject.com/download/ develop with the Django development version] (known as "trunk"), which is Django 1.0.x at the time of this writing. At the least, please use Django 1.0.
 
-After connecting to your server via SSH, the Subversion command would be either of the following commands:
+If you're developing on a web host, Python is probably already installed. To check, type `python` from the command line after logging in via SSH. If Python isn't installed, [http://www.python.org download and install Python]. At least Python version 2.3 is recommended.
 
-Django 1.0:
-
-    `svn co http://code.djangoproject.com/svn/django/trunk/ django-trunk`
-
-Django 0.97, revision 7967:
-
-    `svn co http://code.djangoproject.com/svn/django/trunk/ django-trunk -r7967`
-
-If you're developing on a web host, Python is probably already installed. To check, type `python` from the command line after logging in via SSH. If Python isn't installed, download Python 2.3 from http://www.python.org.
+    `ssh user@domain.com`
+    
+    `python`
 
 == Installation ==
 
-Check out django-podcast from the Google Code Subversion repository. Typically, you download it into a `source` packages directory, and then symlink the `podcast` directory to a location that resides on your Python path. If you work with WebFaction (like I do), and assuming your python path is `$HOME/webapps/django/`, it might go like:
+After connecting to your server via SSH, typically you download Django and other packages into a `source` directory. You would then symlink the `django` directory to a location that resides on your Python path. Likewise, download django-podcast from the Google Code Subversion repository and symlink the `podcast` directory.
+
+If you work with WebFaction (like I do), and assuming one location on your Python path is `$HOME/webapps/django/lib/python2.5`, it might go like:
 
     `mkdir ~/source`
-    
-    `svn co http://django-podcast.googlecode.com/svn/trunk/ $HOME/source/django-podcast-read-only/`
-    
-    `ln -s $HOME/source/django-podcast-read-only/podcast/ $HOME/webapps/django/lib/python2.5/podcast`
 
-Alternatively, you could manually move the `podcast` directory of the Subversion checkout to a location that resides on your Python path, but that would break future Subversion updates.
+    `svn co http://code.djangoproject.com/svn/django/trunk/ $HOME/source/django-trunk/`
+
+    `ln -s $HOME/source/django-trunk/django/ $HOME/webapps/django/lib/python2.5/django`
+
+    `svn co http://django-podcast.googlecode.com/svn/trunk/ $HOME/source/django-podcast-read-only/`
+
+    `ln -s $HOME/source/django-podcast-read-only/podcast/ $HOME/webapps/django/lib/python2.5/podcast`
 
 Add `podcast` as a tuple item to your `INSTALLED_APPS` in `settings.py`:
 
@@ -48,7 +44,13 @@ Add these lines to your URL configuration, `urls.py`:
     )
     }}}
 
-Assuming the Django binary directory is on your Python path, run the `syncdb` command to install the application's database tables.
+Run the `syncdb` command from the directory in which your `settings.py` resides, most probably your applications' project directory. Again, if you're on WebFaction like I am, where `example-project` is your project name:
+
+    `cd ~/webapps/django/example-project/`
+    
+    `python manage.py syncdb`
+
+Alternatively if the Django binary directory is on your Python path, run the `syncdb` command from any directory to install the database tables.
 
     `django-admin.py syncdb`
 
@@ -60,7 +62,7 @@ You might need to restart the server for changes to take effect, especially if y
 
 == Dependencies ==
 
-None. However, consider a thumbnail creation utility, such as [http://code.google.com/p/sorl-thumbnail/ sorl-thumbnail], if you are not in control of creating your podcast show artwork. The show artwork should be a width and height of 600 pixels for iTunes, and you might want to size down show artwork on your website.
+None. However, consider a thumbnail creation utility, such as [http://code.google.com/p/sorl-thumbnail/ sorl-thumbnail], if you are not in control of creating your podcast show artwork. iTunes suggests show artwork should be a width and height of 600 pixels, but you might want to reduce the size of artwork on your website.
 
 == Web site URLs ==
 
@@ -72,7 +74,7 @@ The default, out-of-the-box Web site URLs should look something like:
     
     `http://www.example.com/podcasts/title-of-show/title-of-episode/`
 
-The `/podcasts/` portion of the URL is hard coded into the URL configuration. Beautifully designed default templates are included, so feel free to share your URLs after saving a show and an episode to show off! Note that the templates were not stress tested in Internet Explorer 6 or 7, but work on Web standards browsers.
+The `/podcasts/` portion of the URL is hard coded into the URL configuration. Beautifully designed default templates are included, so feel free to show off your URLs after saving a show and an episode! Note that the templates were not stress tested in Internet Explorer 6 or 7, but work on Web standards browsers.
 
 == FeedBurner and iTunes URLs ==
 
@@ -109,7 +111,6 @@ Likewise, considering [http://search.yahoo.com/mrss/submit submitting your podca
 Your Media RSS feed should be something like:
 
     `http://www.example.com/podcasts/title-of-show/media/`
-
 
 == Google video sitemaps ==
 
