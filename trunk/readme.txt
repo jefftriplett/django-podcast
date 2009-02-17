@@ -114,11 +114,17 @@ Your Media RSS feed should be something like:
 
 == Google video sitemaps ==
 
-If you're creating a video podcast, you can submit a video sitemap to [http://www.google.com/webmasters/tools/ Google Webmaster Tools]. The video sitemap will help Google index videos in [http://video.google.com Google Video].
+If you're creating a video podcast, you can [http://www.google.com/support/webmasters/bin/answer.py?answer=34575 submit a video sitemap] to [http://www.google.com/webmasters/tools/ Google Webmaster Tools]. The video sitemap will help Google index videos in [http://video.google.com Google Video].
 
 After a successful installation, the video sitemap URL should be something like:
 
-     `http://www.example.com/podcasts/title-of-show/sitemap.xml`
+    `http://www.example.com/podcasts/title-of-show/sitemap.xml`
+
+Additionally, you can [http://www.google.com/support/webmasters/bin/answer.py?answer=64748 add the video sitemap URL] to your robots.txt file.
+
+    `Sitemap: http://www.example.com/podcasts/title-of-show/sitemap.xml`
+
+Google allows the submission of a media RSS feed instead of the sitemap to Google Webmaster Tools if you prefer.
 
 == Relevant links ==
 

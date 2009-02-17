@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.0">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
 {% regroup object_list by show as show_list %}{% for show in show_list %}{% for episode in show.list %}
     <url>
         <loc>{{ episode.show.link }}</loc>
+        <lastmod>{{ episode.update|date:"Y-m-D" }}T{{ episode.update|date:"G:i:s" }}+{{ episode.update|date:"O" }}</lastmod>
+        <changefreq>{{ episode.frequency }}</changefreq>
+        <priority>{{ episode.priority }}</priority>
         <video:video>
             {% for enclosure in episode.enclosure_set.all %}
               <video:content_loc>{{ enclosure.file.url }}</video:content_loc>
@@ -12,6 +15,10 @@
             {% if episode.image %}<video:thumbnail_loc>{{ episode.image.url }}</video:thumbnail_loc>{% endif %}
             <video:title>{{ episode.title }}</video:title>
             <video:description>{% if episode.summary %}{{ episode.summary|striptags }}{% else %}{{ episode.description|striptags }}{% endif %}</video:description>
+            <video:rating></video:rating>
+            <video:view_count></video:view_count>
+            <video:publication_date>{{ episode.update|date:"Y-m-D" }}T{{ episode.update|date:"G:i:s" }}+{{ episode.update|date:"O" }}</video:publication_date>
+            <video:tag></video:tag>
             <video:family_friendly>{% ifequal episode.explicit "Yes" %}no{% endifequal %}{% ifequal episode.explicit "No" %}yes{% endifequal %}{% ifequal episode.explicit "clean" %}yes{% endifequal %}</video:family_friendly>
             <video:duration>{{ episode.seconds_total }}</video:duration>
         </video:video>

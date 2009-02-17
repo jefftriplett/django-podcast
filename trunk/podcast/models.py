@@ -418,9 +418,18 @@ class Episode(models.Model):
             )
         ),
     )
+    FREQUENCY_CHOICES = (
+        ('always', 'Always'),
+        ('hourly', 'Hourly'),
+        ('daily', 'Daily'),
+        ('weekly', 'Weekly'),
+        ('monthly', 'Monthly'),
+        ('yearly', 'Yearly'),
+        ('never', 'Never'),
+    )
     # RSS 2.0
     show = models.ForeignKey(Show)
-    author = models.ManyToManyField(User, related_name='episode_authors', help_text='Remember to save the user\'s name and e-mail address in the <a href="../../../auth/user/">User application</a>.<br /')
+    author = models.ManyToManyField(User, related_name='episode_authors', help_text='Remember to save the user\'s name and e-mail address in the <a href="../../../auth/user/">User application</a>.')
     title_type = models.CharField('Title type', max_length=255, blank=True, default='Plain', choices=TYPE_CHOICES)
     title = models.CharField(max_length=255, help_text='Make it specific but avoid explicit language. Limit to 100 characters for a Google video sitemap.')
     slug = models.SlugField(unique=True, help_text='Auto-generated from Title.')
@@ -429,8 +438,11 @@ class Episode(models.Model):
     captions = models.FileField(upload_to='podcasts/episodes/captions/', help_text='For video podcasts. Good captioning choices include <a href="http://en.wikipedia.org/wiki/SubViewer">SubViewer</a>, <a href="http://en.wikipedia.org/wiki/SubRip">SubRip</a> or <a href="http://www.w3.org/TR/ttaf1-dfxp/">TimedText</a>.', blank=True)
     category = models.CharField(max_length=255, blank=True, help_text='Limited to one user-specified category for the sake of sanity.')
     domain = models.URLField(blank=True, help_text='A URL that identifies a categorization taxonomy.')
+    frequency = models.CharField(max_length=4, choices=FREQUENCY_CHOICES, blank=True, help_text='The frequency with which the episode\'s data changes. For sitemaps.', default='never')
+    priority = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True, help_text='The relative priority of this episode compared to others. 1.0 is the most important. For sitemaps.', default='0.5')
     status = models.IntegerField(choices=STATUS_CHOICES, default=2)
     date = models.DateTimeField(auto_now_add=True)
+    update = models.DateTimeField(auto_now=True)
     # iTunes
     subtitle = models.CharField(max_length=255, help_text='Looks best if only a few words like a tagline.', blank=True)
     summary = models.TextField(help_text='Allows 4,000 characters. Description will be used if summary is blank.', blank=True)
