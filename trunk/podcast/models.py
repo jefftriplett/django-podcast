@@ -126,7 +126,7 @@ class ChildCategory(models.Model):
     )
     parent = models.ForeignKey(ParentCategory, related_name='child_category_parents')
     name = models.CharField(max_length=50, blank=True, choices=CHILD_CHOICES, help_text='Please choose a child category that corresponds to its respective parent category (e.g., "Design" is a child category of "Arts").<br />If no such child category exists for a parent category (e.g., Comedy, Kids & Family, Music, News & Politics, or TV & Film), simply leave this blank and save.')
-    slug = models.SlugField(blank=True, unique=False, help_text='A <a href="http://docs.djangoproject.com/en/dev/ref/models/fields/#slugfield">slug</a> is a URL-friendly nickname. For exmaple, a sllug for "Fashion & Beauty" is "fashion-beauty".')
+    slug = models.SlugField(blank=True, unique=False, help_text='A <a href="http://docs.djangoproject.com/en/dev/ref/models/fields/#slugfield">slug</a> is a URL-friendly nickname. For exmaple, a slug for "Fashion & Beauty" is "fashion-beauty".')
 
     class Meta:
         ordering = ['parent', 'slug']
@@ -171,7 +171,7 @@ class Show(models.Model):
     category_show = models.CharField('Category', max_length=255, blank=True, help_text='Limited to one user-specified category for the sake of sanity.')
     domain = models.URLField(blank=True, help_text='A URL that identifies a categorization taxonomy.')
     ttl = models.PositiveIntegerField('TTL', help_text='"Time to Live," the number of minutes a channel can be cached before refreshing.', blank=True, null=True)
-    image = models.ImageField(upload_to='podcasts/shows/img/', help_text='An attractive, original square JPEG (.jpg) or PNG (.png) image of 600x600 pixels. Image will be scaled down to 50x50 pixels at smallest.', blank=True)
+    image = models.ImageField(upload_to='podcasts/shows/img/', help_text='An attractive, original square JPEG (.jpg) or PNG (.png) image of 600x600 pixels. Image will be scaled down to 50x50 pixels at smallest in iTunes.', blank=True)
     feedburner = models.URLField('FeedBurner URL', help_text='Fill this out after saving this show and at least one episode. URL should look like "http://feeds.feedburner.com/TitleOfShow". See <a href="http://code.google.com/p/django-podcast/">documentation</a> for more.', blank=True)
     # iTunes
     subtitle = models.CharField(max_length=255, help_text='Looks best if only a few words, like a tagline.', blank=True)
@@ -438,7 +438,7 @@ class Episode(models.Model):
     captions = models.FileField(upload_to='podcasts/episodes/captions/', help_text='For video podcasts. Good captioning choices include <a href="http://en.wikipedia.org/wiki/SubViewer">SubViewer</a>, <a href="http://en.wikipedia.org/wiki/SubRip">SubRip</a> or <a href="http://www.w3.org/TR/ttaf1-dfxp/">TimedText</a>.', blank=True)
     category = models.CharField(max_length=255, blank=True, help_text='Limited to one user-specified category for the sake of sanity.')
     domain = models.URLField(blank=True, help_text='A URL that identifies a categorization taxonomy.')
-    frequency = models.CharField(max_length=4, choices=FREQUENCY_CHOICES, blank=True, help_text='The frequency with which the episode\'s data changes. For sitemaps.', default='never')
+    frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES, blank=True, help_text='The frequency with which the episode\'s data changes. For sitemaps.', default='never')
     priority = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True, help_text='The relative priority of this episode compared to others. 1.0 is the most important. For sitemaps.', default='0.5')
     status = models.IntegerField(choices=STATUS_CHOICES, default=2)
     date = models.DateTimeField(auto_now_add=True)
