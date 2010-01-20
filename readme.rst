@@ -7,26 +7,10 @@ django-podcast
 Django and Python version
 =========================
 
-django-podcast requires at least [http://code.djangoproject.com/changeset/7967 Django 0.97 revision 7967]. This revision incorporated the newforms-admin branch into trunk and makes the most notable use of it in the categories class of the application's models. However, I *heavily* encourage you to [http://www.djangoproject.com/download/ develop with the Django development version] (known as "trunk"), which is Django 1.0.x at the time of this writing. At the least, please use Django 1.0.
-
-If you're developing on a web host, Python is probably already installed. To check, type ``python`` from the command line after logging in via SSH. If Python isn't installed, [http://www.python.org download and install Python]. At least Python version 2.3 is recommended.:
-
-    ``ssh user@domain.com``
-    
-    ``python``
+django-podcast is in the middle of a refactor. Previously it worked with Django 1.0 but I'd recommend Django 1.1 since that's what we'll be developing against.
 
 Installation
 ============
-
-After connecting to your server via SSH, typically you download Django and other packages into a ``source`` directory. You would then symlink the ``django`` directory to a location that resides on your Python path. Likewise, download django-podcast from the Google Code Subversion repository and symlink the ``podcast`` directory.
-
-If you work with WebFaction (like I do), and assuming one location on your Python path is ``$HOME/webapps/django/lib/python2.5``, it might go like::
-
-    mkdir ~/source
-    svn co http://code.djangoproject.com/svn/django/trunk/ $HOME/source/django-trunk/
-    ln -s $HOME/source/django-trunk/django/ $HOME/webapps/django/lib/python2.5/django
-    svn co http://django-podcast.googlecode.com/svn/trunk/ $HOME/source/django-podcast-read-only/
-    ln -s $HOME/source/django-podcast-read-only/podcast/ $HOME/webapps/django/lib/python2.5/podcast
 
 Add ``podcast`` as a tuple item to your ``INSTALLED_APPS`` in ``settings.py``::
 
@@ -41,20 +25,8 @@ Add these lines to your URL configuration, ``urls.py``::
         (r'^podcasts/', include('podcast.urls')),
     )
 
-Run the ``syncdb`` command from the directory in which your ``settings.py`` resides, most probably your applications' project directory. Again, if you're on WebFaction like I am, where ``example-project`` is your project name:
+Run the Django's ``syncdb`` command.
 
-    cd ~/webapps/django/example-project/
-    python manage.py syncdb
-
-Alternatively if the Django binary directory is on your Python path, run the ``syncdb`` command from any directory to install the database tables.
-
-    django-admin.py syncdb
-
-If you installed the Django admin application, you should be able to see the podcast application's show and episode areas:
-
-    http://www.example.com/admin/podcast/
-
-You might need to restart the server for changes to take effect, especially if you are running Django on ``mod_python``.
 
 Dependencies
 ============
@@ -147,9 +119,9 @@ Tutorials, Validators, Software
 - Comparing Media RSS formats: http://www.w3.org/2005/07/media-and-rss.html
 - Webmonkey's "Use Media RSS": http://www.webmonkey.com/tutorial/Use_Media_RSS
 - Apple iTunes podcasts: http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewGenre?id=26
-  - Apple iTunes audio podcasts: http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewGrouping?id=25306&subMediaType=Audio
-  - Apple iTunes video podcasts: http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewGrouping?id=25314&subMediaType=Video
-  - Apple iTunes HD podcasts: http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewRoom?fcId=258879357&id=20814
+- Apple iTunes audio podcasts: http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewGrouping?id=25306&subMediaType=Audio
+- Apple iTunes video podcasts: http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewGrouping?id=25314&subMediaType=Video
+- Apple iTunes HD podcasts: http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewRoom?fcId=258879357&id=20814
 - Feed Validator: http://www.feedvalidator.org
 - MetaX, Macintosh meta-data tagger (for saving episode-specific artwork and other meta data): http://www.kerstetter.net/page53/page54/page54.html
 
