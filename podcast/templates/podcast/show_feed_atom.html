@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-{% regroup object_list by show as show_list %}{% for show in show_list %} 
-    <title>{{ show.grouper.title }}</title>
-    <link href="{{ show.grouper.link }}"/>
-    <updated>{{ show.list.0.date|date:"Y-m-d" }}T{{ show.list.0.date|date:"H:i:s" }}Z</updated>
+    <title>{{ object.title }}</title>
+    <link href="{{ object.link }}"/>
+    <updated>{{ object.episode_set.published.0.date|date:"Y-m-d" }}T{{ object.episode_set.published.0.date|date:"H:i:s" }}Z</updated>
     <author>
-       <name>{% for author in show.grouper.author.all %}{% if forloop.first %}{% else %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{% if author.first_name or author.last_name %}{% if author.first_name and author.last_name %}{{ author.first_name }} {{ author.last_name }}{% endif %}{% if author.first_name and not author.last_name %}{{ author.first_name }}{% endif %}{% if author.last_name and not author.first_name %}{{ author.last_name }}{% endif %}{% else %}{{ author.username }}{% endif %}{% endfor %}</name>
+       <name>{% for author in object.author.all %}{% if forloop.first %}{% else %}{% if forloop.last %} and {% else %}, {% endif %}{% endif %}{% if author.first_name or author.last_name %}{% if author.first_name and author.last_name %}{{ author.first_name }} {{ author.last_name }}{% endif %}{% if author.first_name and not author.last_name %}{{ author.first_name }}{% endif %}{% if author.last_name and not author.first_name %}{{ author.last_name }}{% endif %}{% else %}{{ author.username }}{% endif %}{% endfor %}</name>
     </author>
     <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
-
-    {% for episode in show.list %}
+    {% for episode in object.episode_set.published %}
     <entry>
         <title>{{ episode.title }}</title>
         <link href="{{ episode.enclosure_set.all.0.file.url }}"/>
@@ -18,6 +16,4 @@
         <summary>{% if episode.summary %}{{ episode.summary }}{% else %}{{ episode.description }}{% endif %}</summary>
     </entry>
     {% endfor %}
-
-{% endfor %}
 </feed>

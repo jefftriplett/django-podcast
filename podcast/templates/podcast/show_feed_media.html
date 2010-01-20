@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:gm="http://www.google.com/schemas/gm/1.1" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule">
-
-{% regroup object_list by show as show_list %}{% for show in show_list %}<channel>
-    <title>{{ show.grouper.title }}</title>
-    <link>{{ show.grouper.link }}</link>
-    <description>{{ show.grouper.description }}</description>
-    {% ifequal show.grouper.copyright "All rights reserved" %}<media:copyright{% if show.grouper.copyright_url %} url="{{ show.grouper.copyright_url }}"{% endif %}>{% now "Y" %} {{ show.grouper.organization }}. {{ show.grouper.copyright }}.</media:copyright>
+<channel>
+    <title>{{ object.title }}</title>
+    <link>{{ object.link }}</link>
+    <description>{{ object.description }}</description>
+    {% ifequal object.copyright "All rights reserved" %}<media:copyright{% if object.copyright_url %} url="{{ object.copyright_url }}"{% endif %}>{% now "Y" %} {{ object.organization }}. {{ object.copyright }}.</media:copyright>
     {% else %}
-    {% ifequal show.grouper.copyright "Public domain" %}<media:copyright{% if show.grouper.copyright_url %} url="{{ show.grouper.copyright_url }}"{% endif %}>{% now "Y" %} {{ show.grouper.organization }}. {{ show.grouper.copyright }}.</media:copyright>
+    {% ifequal object.copyright "Public domain" %}<media:copyright{% if object.copyright_url %} url="{{ object.copyright_url }}"{% endif %}>{% now "Y" %} {{ object.organization }}. {{ object.copyright }}.</media:copyright>
     {% else %}
-    <creativeCommons:license>{{ show.grouper.copyright }}</creativeCommons:license>{% endifequal %}{% endifequal %}
+    <creativeCommons:license>{{ object.copyright }}</creativeCommons:license>{% endifequal %}{% endifequal %}
     
-    {% for episode in show.list %}
+    {% for episode in object.episode_set.published %}
     <item>
         <pubDate>{{ episode.date|date:"r" }} GMT</pubDate>
         {% for enclosure in episode.enclosure_set.all %}
@@ -37,7 +36,5 @@
         {% endfor %}
       </item>
     {% endfor %}
-
 </channel>
-{% endfor %}
 </rss>

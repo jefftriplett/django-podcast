@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{% block title %}Django Podcast{% endblock %}</title>
+<link href="/media/base.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+
+<body>
+
+<div id="header-wrap">
+<div id="header">
+<h1>{% block header %}Django Podcast{% endblock %}</h1>
+</div>
+</div>
+
+<div id="return-wrap">
+<div id="return">
+<p>A list of shows</p>
+</div>
+</div>
+
+<div id="content-wrap">
+<div id="content">
+{% block content %}
+
+{% for show in object_list %}
+
+<h2><a href="{{ show.get_absolute_url }}">{{ show.title }}</a></h2>
+
+<h3>{{ show.organization }}</h3>
+
+{% if show.image %}
+<div class="image"><a href="{{ show.get_absolute_url }}"><img src="{{ show.image.url }}" width="{{ show.image.width }}" height="{{ show.image.height }}" alt="{{ show.organization }} show logo" /></a></div>
+{% endif %}
+
+<p>{% if show.summary %}{{ show.summary }}{% else %}{{ show.description|striptags }}{% endif %}</p>
+{% endfor %}
+
+{% endblock %}
+</div>
+</div>
+
+<div id="footer-wrap">
+<div id="footer">
+{% block footer %}
+&#169; {% now "Y" %}.
+{% endblock %}
+</div>
+</div>
+
+</body>
+</html>
