@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns, url
 
 
 urlpatterns = patterns('podcast.views',
@@ -13,7 +13,7 @@ urlpatterns = patterns('podcast.views',
 
     # Episode list feed by show (Atom)
     url(r'^(?P<slug>[-\w]+)/atom/$', view='show_list_atom', name='podcast_atom'),
-    
+
     # Episode list feed by show (Media RSS)
     url(r'^(?P<slug>[-\w]+)/media/$', view='show_list_media', name='podcast_media'),
 

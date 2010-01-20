@@ -7,15 +7,19 @@ class CategoryInline(admin.StackedInline):
     model = ChildCategory
     extra = 3
 
+
 class ParentCategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
     inlines = [CategoryInline,]
 
+
 class ChildCategoryAdmin(admin.ModelAdmin):
     list_display = ('parent', 'name')
 
+
 class MediaCategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
+
 
 class ShowAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ("title",)}
@@ -30,6 +34,7 @@ class ShowAdmin(admin.ModelAdmin):
         }),
     )
 
+
 class EnclosureInline(admin.StackedInline):
     model = Enclosure
     extra = 1
@@ -40,9 +45,11 @@ class EnclosureInline(admin.StackedInline):
         }),
     )
 
+
 class EnclosureAdmin(admin.ModelAdmin):
     list_display = ('title', 'file', 'player', 'mime')
     list_filter = ('mime',)
+
 
 class EpisodeAdmin(admin.ModelAdmin):
     inlines = [EnclosureInline,]

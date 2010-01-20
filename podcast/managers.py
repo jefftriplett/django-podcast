@@ -4,6 +4,7 @@ import datetime
 
 class EpisodeManager(Manager):
     """Returns public posts that are not in the future."""
+
     def __init__(self, *args, **kwargs):
         super(EpisodeManager, self).__init__(*args, **kwargs)
 
