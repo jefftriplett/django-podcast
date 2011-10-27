@@ -22,7 +22,7 @@ Add ``podcast`` as a tuple item to your ``INSTALLED_APPS`` in ``settings.py``::
 
 Add these lines to your URL configuration, ``urls.py``::
 
-    urlpatterns += patterns('', 
+    urlpatterns += patterns('',
         (r'^podcasts/', include('podcast.urls')),
     )
 
