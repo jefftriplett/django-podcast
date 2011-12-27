@@ -171,7 +171,7 @@ class Show(models.Model):
     domain = models.URLField(blank=True, help_text='A URL that identifies a categorization taxonomy.')
     ttl = models.PositiveIntegerField('TTL', help_text='"Time to Live," the number of minutes a channel can be cached before refreshing.', blank=True, null=True)
     image = models.ImageField(upload_to='podcasts/shows/img/', help_text='An attractive, original square JPEG (.jpg) or PNG (.png) image of 600x600 pixels. Image will be scaled down to 50x50 pixels at smallest in iTunes.', blank=True)
-    feedburner = models.URLField('FeedBurner URL', help_text='Fill this out after saving this show and at least one episode. URL should look like "http://feeds.feedburner.com/TitleOfShow". See <a href="http://code.google.com/p/django-podcast/">documentation</a> for more.', blank=True)
+    feedburner = models.URLField('FeedBurner URL', help_text='Fill this out after saving this show and at least one episode. URL should look like "http://feeds.feedburner.com/TitleOfShow". See <a href="https://github.com/jefftriplett/django-podcast">documentation</a> for more.', blank=True)
     # iTunes
     subtitle = models.CharField(max_length=255, help_text='Looks best if only a few words, like a tagline.', blank=True)
     summary = models.TextField(help_text='Allows 4,000 characters. Description will be used if summary is blank.', blank=True)
@@ -180,7 +180,7 @@ class Show(models.Model):
     block = models.BooleanField(default=False, help_text='Check to block this show from iTunes. <br />Show will remain blocked until unchecked.')
     redirect = models.URLField(help_text='The show\'s new URL feed if changing the URL of the current show feed. Must continue old feed for at least two weeks and write a 301 redirect for old feed.', blank=True)
     keywords = models.CharField(max_length=255, help_text='A comma-demlimited list of up to 12 words for iTunes searches. Perhaps include misspellings of the title.', blank=True)
-    itunes = models.URLField('iTunes Store URL', help_text='Fill this out after saving this show and at least one episode. URL should look like "http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000". See <a href="http://code.google.com/p/django-podcast/">documentation</a> for more.', blank=True)
+    itunes = models.URLField('iTunes Store URL', help_text='Fill this out after saving this show and at least one episode. URL should look like "http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=000000000". See <a href="https://github.com/jefftriplett/django-podcast">documentation</a> for more.', blank=True)
 
     class Meta:
         ordering = ['organization', 'slug']
