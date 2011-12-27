@@ -33,6 +33,7 @@ class ShowAdmin(admin.ModelAdmin):
             'fields': ('subtitle', 'summary', 'category', 'keywords', ('explicit', 'block'), 'redirect', 'itunes')
         }),
     )
+    raw_id_fields = ('author','webmaster',)
 
 
 class EnclosureInline(admin.StackedInline):
@@ -77,6 +78,7 @@ class EpisodeAdmin(admin.ModelAdmin):
             'fields': ('preview', ('preview_start_mins', 'preview_start_secs'), ('preview_end_mins', 'preview_end_secs'), 'host')
         }),
     )
+    raw_id_fields = ('author',)
 
 
 admin.site.register(ParentCategory, ParentCategoryAdmin)
