@@ -445,7 +445,7 @@ class Episode(models.Model):
     frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES, blank=True, help_text='The frequency with which the episode\'s data changes. For sitemaps.', default='never')
     priority = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True, help_text='The relative priority of this episode compared to others. 1.0 is the most important. For sitemaps.', default='0.5')
     status = models.IntegerField(choices=STATUS_CHOICES, default=2)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(help_text='The date/time this episiode is scheduled to go live.')
     update = models.DateTimeField(auto_now=True)
     # iTunes
     subtitle = models.CharField(max_length=255, help_text='Looks best if only a few words like a tagline.', blank=True)
