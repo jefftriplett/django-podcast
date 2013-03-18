@@ -8,7 +8,7 @@ Django Podcast Episode List
 
 {% block content %}
 
-<p class="back"><a href="{% url podcast_shows %}">Return to shows</a></p>
+<p class="back"><a href="{% url "podcast_shows" %}">Return to shows</a></p>
 
 {% regroup object_list by show as show_list %}
 
@@ -24,7 +24,7 @@ Django Podcast Episode List
   <dt>Author</dt>{% for author in show.grouper.author.all %}
     <dd>{% if author.email %}<a href="mailto:{{ author.email }}">{% endif %}{% if author.first_name or author.last_name %}{% if author.first_name and author.last_name %}{{ author.first_name }} {{ author.last_name }}{% endif %}{% if author.first_name and not author.last_name %}{{ author.first_name }}{% endif %}{% if author.last_name and not author.first_name %}{{ author.last_name }}{% endif %}{% else %}{{ author.username }}{% endif %}{% if author.email %}</a>{% endif %}</dd>{% endfor %}
   <dt>RSS</dt>
-    <dd><a href="{% url podcast_feed object_list.all.0.slug %}">Subscribe</a></dd>
+    <dd><a href="{% url "podcast_feed" object_list.all.0.slug %}">Subscribe</a></dd>
   {% if show.grouper.feedburner %}<dt>FeedBurner</dt>
     <dd><a href="{{ show.grouper.feedburner }}">Subscribe</a></dd>{% endif %}
   {% if show.grouper.itunes %}<dt>iTunes</dt>
@@ -50,5 +50,5 @@ Django Podcast Episode List
 {% endblock %}
 
 {% block footer %}
-&#169; {% now "Y" %} {% regroup object_list by show as show_list %}{% for show in show_list %}{{ show.grouper.organization }}.{% endfor %} <a href="{% url podcast_feed object_list.all.0.slug %}">Subscribe</a>.
+&#169; {% now "Y" %} {% regroup object_list by show as show_list %}{% for show in show_list %}{{ show.grouper.organization }}.{% endfor %} <a href="{% url "podcast_feed" object_list.all.0.slug %}">Subscribe</a>.
 {% endblock %}
