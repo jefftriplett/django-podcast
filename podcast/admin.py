@@ -1,6 +1,6 @@
-from podcast.models import ParentCategory, ChildCategory, MediaCategory, Show, Enclosure, Episode
 from django.contrib import admin
-from django.utils.translation import ugettext_lazy as _
+
+from .models import ParentCategory, ChildCategory, MediaCategory, Show, Enclosure, Episode
 
 
 class CategoryInline(admin.StackedInline):
@@ -33,7 +33,7 @@ class ShowAdmin(admin.ModelAdmin):
             'fields': ('subtitle', 'summary', 'category', 'keywords', ('explicit', 'block'), 'redirect', 'itunes')
         }),
     )
-    raw_id_fields = ('author','webmaster',)
+    raw_id_fields = ('author', 'webmaster',)
 
 
 class EnclosureInline(admin.StackedInline):

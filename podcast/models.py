@@ -1,12 +1,13 @@
-from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.core.files.storage import get_storage_class
-from django.db.utils import load_backend
+from django.db import models
 
-from podcast.managers import EpisodeManager
+from .managers import EpisodeManager
 
-PODCAST_STORAGE = get_storage_class(getattr(settings, 'PODCAST_STORAGE', None)) 
+
+AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
+PODCAST_STORAGE = get_storage_class(getattr(settings, 'PODCAST_STORAGE', None))
+
 
 class ParentCategory(models.Model):
     """Parent Category model."""
@@ -37,7 +38,7 @@ class ParentCategory(models.Model):
         verbose_name_plural = 'categories (iTunes parent)'
 
     def __unicode__(self):
-        return u'%s' % (self.name)
+        return self.name
 
 
 class ChildCategory(models.Model):
@@ -138,10 +139,10 @@ class ChildCategory(models.Model):
         verbose_name_plural = 'categories (iTunes child)'
 
     def __unicode__(self):
-        if self.name!='':
+        if self.name:
             return u'%s > %s' % (self.parent, self.name)
         else:
-            return u'%s' % (self.parent)
+            return self.parent
 
 
 class Show(models.Model):
@@ -170,8 +171,8 @@ class Show(models.Model):
     language = models.CharField(max_length=5, default='en-us', help_text='Default is American English. See <a href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO 639-1</a> and <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements">ISO 3166-1</a> for more language codes.', blank=True)
     copyright = models.CharField(max_length=255, default='All rights reserved', choices=COPYRIGHT_CHOICES, help_text='See <a href="http://creativecommons.org/about/license/">Creative Commons licenses</a> for more information.')
     copyright_url = models.URLField('Copyright URL', blank=True, help_text='A URL pointing to additional copyright information. Consider a <a href="http://creativecommons.org/licenses/">Creative Commons license URL</a>.')
-    author = models.ManyToManyField(User, related_name='show_authors', help_text='Remember to save the user\'s name and e-mail address in the <a href="../../../auth/user/">User application</a>.<br />')
-    webmaster = models.ForeignKey(User, related_name='webmaster', blank=True, null=True, help_text='Remember to save the user\'s name and e-mail address in the <a href="../../../auth/user/">User application</a>.')
+    author = models.ManyToManyField(AUTH_USER_MODEL, related_name='show_authors', help_text='Remember to save the user\'s name and e-mail address in the <a href="../../../auth/user/">User application</a>.<br />')
+    webmaster = models.ForeignKey(AUTH_USER_MODEL, related_name='webmaster', blank=True, null=True, help_text='Remember to save the user\'s name and e-mail address in the <a href="../../../auth/user/">User application</a>.')
     category_show = models.CharField('Category', max_length=255, blank=True, help_text='Limited to one user-specified category for the sake of sanity.')
     domain = models.URLField(blank=True, help_text='A URL that identifies a categorization taxonomy.')
     ttl = models.PositiveIntegerField('TTL', help_text='"Time to Live," the number of minutes a channel can be cached before refreshing.', blank=True, null=True)
@@ -191,7 +192,7 @@ class Show(models.Model):
         ordering = ['organization', 'slug']
 
     def __unicode__(self):
-        return u'%s' % (self.title)
+        return self.title
 
     @models.permalink
     def get_absolute_url(self):
@@ -250,15 +251,18 @@ class MediaCategory(models.Model):
         verbose_name_plural = 'categories (Media RSS)'
 
     def __unicode__(self):
-        return u'%s' % (self.name)
+        return self.name
 
 
 class Episode(models.Model):
     """Episode model."""
+    STATUS_DRAFT = 1
+    STATUS_PUBLIC = 2
+    STATUS_PRIVATE = 3
     STATUS_CHOICES = (
-        (1, 'Draft'),
-        (2, 'Public'),
-        (3, 'Private'),
+        (STATUS_DRAFT, 'Draft'),
+        (STATUS_PUBLIC, 'Public'),
+        (STATUS_PRIVATE, 'Private'),
     )
     SECONDS_CHOICES = tuple(('%02d' % x, str(x)) for x in range(60))
     EXPLICIT_CHOICES = (
@@ -433,7 +437,7 @@ class Episode(models.Model):
     )
     # RSS 2.0
     show = models.ForeignKey(Show)
-    author = models.ManyToManyField(User, related_name='episode_authors', help_text='Remember to save the user\'s name and e-mail address in the <a href="../../../auth/user/">User application</a>.')
+    author = models.ManyToManyField(AUTH_USER_MODEL, related_name='episode_authors', help_text='Remember to save the user\'s name and e-mail address in the <a href="../../../auth/user/">User application</a>.')
     title_type = models.CharField('Title type', max_length=255, blank=True, default='Plain', choices=TYPE_CHOICES)
     title = models.CharField(max_length=255, help_text='Make it specific but avoid explicit language. Limit to 100 characters for a Google video sitemap.')
     slug = models.SlugField(unique=True, help_text='Auto-generated from Title.')
@@ -483,7 +487,7 @@ class Episode(models.Model):
         ordering = ['-date', 'slug']
 
     def __unicode__(self):
-        return u'%s' % (self.title)
+        return self.title
 
     @models.permalink
     def get_absolute_url(self):
@@ -544,4 +548,4 @@ class Enclosure(models.Model):
         ordering = ['mime', 'file']
 
     def __unicode__(self):
-        return u'%s' % (self.file)
+        return self.file

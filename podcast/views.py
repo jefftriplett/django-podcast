@@ -1,5 +1,6 @@
 from django.views.generic.list_detail import object_detail, object_list
-from podcast.models import Episode, Show, Enclosure
+
+from .models import Enclosure, Episode, Show
 
 
 def episode_detail(request, show_slug, episode_slug):
