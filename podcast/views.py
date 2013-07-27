@@ -1,135 +1,62 @@
 from django.views.generic.list_detail import object_detail, object_list
 
 from .models import Enclosure, Episode, Show
+class EpisodeDetail(DetailView):
+    model = Episode
+    slug_url_kwarg = "episode_slug"
+
+    def get_queryset(self):
+        return self.model.objects.published().filter(show__slug__exact=self.kwargs['show_slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super(EpisodeDetail, self).get_context_data(**kwargs)
+        context['enclosure_list'] = Enclosure.objects.filter(episode__show__slug__exact=self.kwargs['show_slug']).filter(episode = self.object).order_by("-episode__date")
+        return context
+episode_detail = EpisodeDetail.as_view()
 
 
-def episode_detail(request, show_slug, episode_slug):
-    """
-    Episode detail
+class EpisodeList(ListView):
+    model = Episode
 
-    Template:  ``podcast/episode_detail.html``
-    Context:
-        object_detail
-            Detail of episode.
-    """
-    return object_detail(
-        request=request,
-        queryset=Episode.objects.published().filter(show__slug__exact=show_slug),
-        slug=episode_slug,
-        slug_field='slug',
-        extra_context={
-            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=show_slug).filter(episode__slug__exact=episode_slug).order_by('-episode__date')},
-        template_name='podcast/episode_detail.html')
+    def get_queryset(self):
+        return self.model.objects.published().filter(show__slug__exact=self.kwargs['slug']).order_by('-date')
+episode_list = EpisodeList.as_view()
 
 
-def episode_list(request, slug):
-    """
-    Episode list
+class EpisodeSitemap(EpisodeList):
+    template_name = 'podcast/episode_sitemap.html'
+    content_type = 'application/xml'
 
-    Template:  ``podcast/episode_list.html``
-    Context:
-        object_list
-            List of episodes.
-    """
-    return object_detail(
-        request=request,
-        queryset=Show.objects.all(),
-        slug_field='slug',
-        slug=slug,
-        extra_context={
-            'object_list': Episode.objects.published().filter(show__slug__exact=slug),
-        },
-        template_name='podcast/episode_list.html')
+    def get_context_data(self, **kwargs):
+        context = super(EpisodeDetail, self).get_context_data(**kwargs)
+        context['enclosure_list'] = Enclosure.objects.filter(episode__show__slug__exact=self.kwargs['slug']).order_by("-episode__date")
+        return context
+episode_sitemap = EpisodeSitemap.as_view()
 
 
-def episode_sitemap(request, slug):
-    """
-    Episode sitemap
+class ShowList(ListView):
+    model = Show
+    paginate_by=25
 
-    Template:  ``podcast/episode_sitemap.html``
-    Context:
-        object_list
-            List of episodes.
-    """
-    return object_list(
-        request,
-        mimetype='application/xml',
-        queryset=Episode.objects.published().filter(show__slug__exact=slug).order_by('-date'),
-        extra_context={
-            'enclosure_list': Enclosure.objects.filter(episode__show__slug__exact=slug).order_by('-episode__date')},
-        template_name='podcast/episode_sitemap.html')
+    def get_queryset(self):
+        if self.kwargs.get("slug"):
+            return self.model.objects.filter(slug__exact=self.kwargs['slug'])
+        return self.model.objects.all()
+show_list = ShowList.as_view()
 
 
-def show_list(request, slug=None, template_name='podcast/show_list.html', page=0, paginate_by=25, mimetype=None):
-    """
-    Episode list
-    - feed by show
-
-    Template:  ``podcast/show_list.html``
-    Context:
-        object_list
-            List of shows.
-    """
-
-    if slug:
-        shows = Show.objects.filter(slug__exact=slug)
-    else:
-        shows = Show.objects.all()
-
-    return object_list(
-        request=request,
-        queryset=shows,
-        template_name=template_name,
-        paginate_by=paginate_by,
-        page=page)
+class ShowListAtom(DetailView):
+    model = Show
+    template_name = 'podcast/show_feed_atom.html'
+    content_type = 'application/rss+xml'
+show_list_atom = ShowListAtom.as_view()
 
 
-def show_list_atom(request, slug, template_name='podcast/show_feed_atom.html'):
-    """
-    Episode Atom feed for a given show
-
-    Template:  ``podcast/show_feed_atom.html``
-    Context:
-        object
-            Story detail
-    """
-    return object_detail(request,
-        queryset=Show.objects.all(),
-        mimetype='application/rss+xml',
-        slug_field='slug',
-        slug=slug,
-        template_name=template_name)
+class ShowListFeed(ShowListAtom):
+    template_name = 'podcast/show_feed.html'
+show_list_feed = ShowListFeed.as_view()
 
 
-def show_list_feed(request, slug, template_name='podcast/show_feed.html'):
-    """
-    Episode RSS feed for a given show
-
-    Template:  ``podcast/show_feed.html``
-    Context:
-        object
-            Story detail
-    """
-    return object_detail(request,
-        queryset=Show.objects.all(),
-        mimetype='application/rss+xml',
-        slug_field='slug',
-        slug=slug,
-        template_name=template_name)
-
-
-def show_list_media(request, slug, template_name='podcast/show_feed_media.html'):
-    """
-    Episode Media feed for a given show
-
-    Template:  ``podcast/show_feed_media.html``
-    Context:
-        object
-            Story detail
-    """
-    return object_detail(request,
-        queryset=Show.objects.all(),
-        mimetype='application/rss+xml',
-        slug_field='slug',
-        slug=slug,
-        template_name=template_name)
+class ShowListMedia(ShowListAtom):
+    template_name = 'podcast/show_feed_media.html'
+show_list_media = ShowListMedia.as_view()

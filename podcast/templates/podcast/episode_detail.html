@@ -8,7 +8,7 @@ Django Podcast Episode Detail
 
 {% block content %}
 
-<p class="back"><a href="{% url podcast_episodes object.show.slug %}">Return to episodes</a></p>
+<p class="back"><a href="{% url "podcast_episodes" object.show.slug %}">Return to episodes</a></p>
 
 <h2>{{ object.title }}</h2>
 
@@ -20,11 +20,11 @@ Django Podcast Episode Detail
   <dt>Date</dt>
     <dd>{{ object.date|date:"F g, Y, g:m a" }}</dd>
   <dt>Show</dt>
-    <dd><a href="{% url podcast_episodes object.show.slug %}">{{ object.show.title }}</a></dd>
+    <dd><a href="{% url "podcast_episodes" object.show.slug %}">{{ object.show.title }}</a></dd>
   <dt>Author</dt>{% for author in object.author.all %}
     <dd>{% if author.email %}<a href="mailto:{{ author.email }}">{% endif %}{% if author.first_name or author.last_name %}{% if author.first_name and author.last_name %}{{ author.first_name }} {{ author.last_name }}{% endif %}{% if author.first_name and not author.last_name %}{{ author.first_name }}{% endif %}{% if author.last_name and not author.first_name %}{{ author.last_name }}{% endif %}{% else %}{{ author.username }}{% endif %}{% if author.email %}</a>{% endif %}</dd>{% endfor %}
   <dt>RSS</dt>
-    <dd><a href="{% url podcast_feed object.show.slug %}">Subscribe</a></dd>
+    <dd><a href="{% url "podcast_feed" object.show.slug %}">Subscribe</a></dd>
   {% if object.show.feedburner %}<dt>FeedBurner</dt>
     <dd><a href="{{ object.show.feedburner }}">Subscribe</a></dd>{% endif %}
   {% if object.show.itunes %}<dt>iTunes</dt>
@@ -47,5 +47,5 @@ Django Podcast Episode Detail
 
 
 {% block footer %}
-&#169; {% now "Y" %} {{ object.show.organization }}. <a href="{% url podcast_feed object.show.slug %}">Subscribe</a>.
+&#169; {% now "Y" %} {{ object.show.organization }}. <a href="{% url "podcast_feed" object.show.slug %}">Subscribe</a>.
 {% endblock %}
