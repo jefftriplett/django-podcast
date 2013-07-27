@@ -2,6 +2,10 @@
 django-podcast
 ==============
 
+.. image:: https://travis-ci.org/jefftriplett/django-podcast.png?branch=master
+   :alt: Build Status
+   :target: https://travis-ci.org/jefftriplett/django-podcast
+
 *django-podcast* is a Django application that allows you to easily publish podcasts that conform to the RSS 2.0 and iTunes RSS podcast specifications.
 
 Django and Python version
