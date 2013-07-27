@@ -1,20 +1,36 @@
-# Compiled source #
-###################
-*.com
-*.class
-*.dll
-*.exe
-*.o
+*.py[cod]
+
+# C extensions
 *.so
-*.pyc
 
-# Logs and databases #
-######################
-*.log
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+__pycache__
 
-# OS generated files #
-######################
-.DS_Store*
-ehthumbs.db
-Icon?
-Thumbs.db
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
