@@ -1,6 +1,6 @@
-from django.views.generic import DetailView, ListView
-from podcast.models import Episode, Show, Enclosure
+from django.views.generic.list_detail import object_detail, object_list
 
+from .models import Enclosure, Episode, Show
 class EpisodeDetail(DetailView):
     model = Episode
     slug_url_kwarg = "episode_slug"
