@@ -14,7 +14,7 @@ class EpisodeQuerySet(QuerySet):
         return self.filter(status__exact=self.model.STATUS_PUBLIC)
 
     def published(self):
-        return self.filter(status__exact=self.model.STATUS_DRAFT, date__lte=timezone.now())
+        return self.filter(status__exact=self.model.STATUS_PUBLIC, date__lte=timezone.now())
 
 
 class EpisodeManager(Manager):
